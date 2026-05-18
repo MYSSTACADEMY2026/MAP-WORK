@@ -396,11 +396,15 @@ with tabs[1]:
         
         options = st.session_state.quiz_options[idx]
         
+        # Fixed lookup layout prevents traceback loop during frame resets
+        user_choice = st.session_state.answers.get(idx)
+        radio_index = options.index(user_choice) if user_choice in options else None
+        
         st.session_state.answers[idx] = st.radio(
             f"Select positioning boundary for {item['name']}:", 
             options, 
             key=f"q_{idx}",
-            index=None if idx not in st.session_state.answers else options.index(st.session_state.answers[idx])
+            index=radio_index
         )
         st.divider()
 

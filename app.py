@@ -4,7 +4,7 @@ from streamlit_folium import st_folium
 import random
 import streamlit.components.v1 as components
 
-# --- COMPLETE CBSE MAP COORDINATES DATASET (Prevents Cloud Timeouts) ---
+# --- COMPLETE CBSE MAP COORDINATES DATASET ---
 COORDINATE_LOOKUP = {
     "Calcutta (Sept. 1920)": [22.5726, 88.3639],
     "Nagpur (Dec. 1920)": [21.1458, 79.0882],
@@ -81,7 +81,6 @@ COORDINATE_LOOKUP = {
     "Hyderabad (Rajiv Gandhi)": [17.2403, 78.4294]
 }
 
-# Comprehensive CBSE Class X Map Work Dataset
 MAP_DATA = {
     "History: Congress Sessions": [
         {"name": "Calcutta (Sept. 1920)", "state": "West Bengal"},
@@ -188,10 +187,8 @@ MAP_DATA = {
 def get_coordinates(name, state):
     return COORDINATE_LOOKUP.get(name, [22.0, 78.9])
 
-# --- Streamlit Layout Customization ---
 st.set_page_config(page_title="CBSE Class 10 Map Prep Terminal", layout="wide")
 
-# Injection of UI/UX Branding Elements matching Portal Core Hub Themes
 st.markdown("""
 <style>
     .stApp {
@@ -231,7 +228,6 @@ st.markdown("""
         margin: 0;
     }
         
-    /* Global Base Typography Rules */
     h1, h2, h3, h4, h5, h6, label, .stWidgetLabel {
         color: #ffffff !important;
     }
@@ -243,7 +239,6 @@ st.markdown("""
         font-weight: 600 !important;
     }
 
-    /* --- CROSS-PLATFORM COMPATIBLE SELECT DROPDOWN OVERRIDES --- */
     div[data-baseweb="select"] > div {
         background-color: #1a2d3b !important;
         border: 1px solid rgba(255, 255, 255, 0.3) !important;
@@ -326,54 +321,33 @@ st.markdown("""
         font-weight: 800 !important;
     }
 
-    /* Isolated White Box Layout Styles for Results Container */
-    .evaluation-white-box {
+    /* --- ISOLATED INDEPENDENT 5 WHITE RESPONSE BOXES --- */
+    /* Target and turn the 5 notification elements pure white so ticks and crosses display perfectly */
+    div[data-testid="stNotificationV2"], 
+    div[data-testid="stBaseAlert-success"],
+    div[data-testid="stBaseAlert-danger"] {
         background-color: #ffffff !important;
-        padding: 25px !important;
-        border-radius: 12px !important;
-        border: 2px solid #e0e0e0 !important;
-        box-shadow: 0 6px 18px rgba(0,0,0,0.15) !important;
-        margin-top: 20px;
-    }
-    
-    /* Ensure explicit element targeting overrides global page rules inside the white box */
-    .evaluation-white-box h3, 
-    .evaluation-white-box p, 
-    .evaluation-white-box div, 
-    .evaluation-white-box span,
-    .evaluation-white-box [data-testid="stMarkdownContainer"] p {
-        color: #000000 !important;
-    }
-    
-    /* --- RESTORE STREAMLIT ALERT THEME BOXES CORRECTIONS --- */
-    /* Forces correct alert boxes to display clear green background templates with matching green text */
-    .evaluation-white-box div[data-testid="stNotificationV2"]: has(div[data-testid="stBaseAlert-success"]),
-    .evaluation-white-box div[data-testid="stBaseAlert-success"],
-    .evaluation-white-box .stAlert:has(.fa-check) {
-        background-color: #e8f5e9 !important;
-        border-left: 5px solid #2e7d32 !important;
-    }
-    .evaluation-white-box div[data-testid="stBaseAlert-success"] p,
-    .evaluation-white-box div[data-testid="stBaseAlert-success"] div {
-        color: #1b5e20 !important;
+        border-radius: 8px !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important;
     }
 
-    /* Forces wrong alert boxes to display clear red background templates with matching red text */
-    .evaluation-white-box div[data-testid="stNotificationV2"]:has(div[data-testid="stBaseAlert-danger"]),
-    .evaluation-white-box div[data-testid="stBaseAlert-danger"],
-    .evaluation-white-box .stAlert:has(.fa-times) {
-        background-color: #ffebee !important;
-        border-left: 5px solid #c62828 !important;
-    }
-    .evaluation-white-box div[data-testid="stBaseAlert-danger"] p,
-    .evaluation-white-box div[data-testid="stBaseAlert-danger"] div {
-        color: #b71c1c !important;
+    /* Set inner content texts to dark gray for high readability inside the white boxes */
+    div[data-testid="stBaseAlert-success"] p,
+    div[data-testid="stBaseAlert-success"] div,
+    div[data-testid="stBaseAlert-danger"] p,
+    div[data-testid="stBaseAlert-danger"] div {
+        color: #1a2530 !important;
+        font-weight: 600 !important;
     }
 
-    .evaluation-white-box div[data-testid="stMetricValue"] div {
-        color: #0b5ea8 !important;
+    /* Give correct ticks and wrong cross marks distinct custom highlight borders */
+    div[data-testid="stBaseAlert-success"] {
+        border-left: 6px solid #2e7d32 !important;
     }
-    </style>
+    div[data-testid="stBaseAlert-danger"] {
+        border-left: 6px solid #c62828 !important;
+    }
+</style>
 """, unsafe_allow_html=True)
 
 LOGO_URL = "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiQ6lxEfFnImeGWEf7I7Fg9z-uCCkAdKWwxtHLn4zzcyCElV3DupEdwzEKpBin5ucTMpCLDbgwqN_cUkj7qhXDdgAIAvIFLdSJfl2byeN8e4_4oaVImEQQB9lYD-5qrC0mDqWWdXEFuhXy6jViTvcc-6LB6sJa3a2okWqasLjDKMoOxcbvtlUwCLxP5JEl6/s320/Gemini_Generated_Image_ce701rce701rce70-removebg-preview.png"
@@ -476,7 +450,6 @@ with tabs[1]:
         st.session_state.submitted = True
 
     if st.session_state.submitted:
-        st.markdown('<div class="evaluation-white-box">', unsafe_allow_html=True)
         st.subheader("📊 Performance Summary & Analysis")
         score = 0
         for idx, (cat, item) in enumerate(st.session_state.quiz_data):
@@ -489,7 +462,6 @@ with tabs[1]:
                 st.error(f"❌ Question {idx+1}: Wrong Choice. **{item['name']}** is located within **{correct_ans}** (You selected: {user_ans}).")
         
         st.metric(label="Your Mock Evaluation Score", value=f"{score} / 5")
-        st.markdown('</div>', unsafe_allow_html=True)
 
         js_scroll = """
         <script>

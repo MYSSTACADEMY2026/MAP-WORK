@@ -197,17 +197,17 @@ st.markdown("""
        ========================================================================== */
     /* Target select box input fields container */
     div[data-baseweb="select"] div {
-        color: #FFD700 !important; /* Force visible black/dark text inside active selectors */
-        background-color: #ffffff !important;
+        color: #000000 !important; /* Force visible black/dark text inside active selectors */
+        background-color: #000000 !important;
     }
     
     /* Target the dropdown overlay popover list items */
     ul[role="listbox"] li, ul[role="listbox"] div {
         color: #000000 !important; /* Make options inside dropdown list completely dark and viewable */
-        background-color: #ffffff !important;
+        background-color: #000000 !important;
     }
     ul[role="listbox"] li:hover {
-        background-color: #ffffff !important; /* light blue highlight on hovering selections */
+        background-color: #000000 !important; /* light blue highlight on hovering selections */
     }
 
     /* Target chosen pills/chips inside multiselect containers */

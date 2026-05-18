@@ -201,12 +201,12 @@ st.markdown("""
     .branding-container {
         display: flex;
         align-items: center;
-        gap: 15px;
-        padding: 10px;
+        gap: 10px;
+        padding: 7px;
         background: rgba(255, 255, 255, 0.1);
-        border-radius: 12px;
+        border-radius: 10px;
         border: 1px solid rgba(255, 255, 255, 0.15);
-        margin-bottom: 20px;
+        margin-bottom: 15px;
     }
     .brand-logo {
         height: 100px;
@@ -217,7 +217,7 @@ st.markdown("""
         flex-direction: column;
     }
     .main-academy-title {
-        font-size: 45px;
+        font-size: 60px;
         font-weight: 800;
         color: #FFD700;
         margin: 0;

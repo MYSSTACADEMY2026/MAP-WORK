@@ -5,7 +5,6 @@ import random
 import streamlit.components.v1 as components
 
 # --- COMPLETE CBSE MAP COORDINATES DATASET (Prevents Cloud Timeouts) ---
-# Hardcoded to bypass runtime geolocator network blocks entirely
 COORDINATE_LOOKUP = {
     "Calcutta (Sept. 1920)": [22.5726, 88.3639],
     "Nagpur (Dec. 1920)": [21.1458, 79.0882],
@@ -249,7 +248,6 @@ st.markdown("""
         background-color: #1a2d3b !important;
         border: 1px solid rgba(255, 255, 255, 0.3) !important;
     }
-    /* Fixed visibility of dropdown arrows and selection labels */
     div[data-baseweb="select"] [data-testid="stMarkdownContainer"] p,
     div[data-baseweb="select"] svg,
     div[data-baseweb="select"] div {
@@ -257,7 +255,6 @@ st.markdown("""
         fill: #ffffff !important;
     }
         
-    /* Standardizes hidden popup overlay container layers to use high-contrast dark values */
     div[data-baseweb="popover"], 
     div[role="listbox"], 
     ul[role="listbox"] {
@@ -265,7 +262,6 @@ st.markdown("""
         color: #000000 !important;
     }
 
-    /* Standardizes dropdown options for 100% readability across desktop & mobile targets */
     div[role="option"], 
     div[role="option"] span,
     ul[role="listbox"] li, 
@@ -275,7 +271,6 @@ st.markdown("""
         background-color: #ffffff !important;
     }
 
-    /* Uniform active/hover states when scrolling down options on desktop or using touch on mobile */
     div[role="option"]:hover,
     div[role="option"][aria-selected="true"],
     ul[role="listbox"] li:hover,
@@ -283,7 +278,6 @@ st.markdown("""
         background-color: #26a0da !important;
         color: #ffffff !important;
     }
-    /* ----------------------------------------------------------- */
 
     span[data-baseweb="tag"] {
         background-color: #26a0da !important;
@@ -340,8 +334,9 @@ st.markdown("""
         border: 2px solid #e0e0e0 !important;
         box-shadow: 0 6px 18px rgba(0,0,0,0.15) !important;
         margin-top: 20px;
-        color: #000000 !important;
     }
+    
+    /* Ensure explicit element targeting overrides global page rules inside the white box */
     .evaluation-white-box h3, 
     .evaluation-white-box p, 
     .evaluation-white-box div, 
@@ -349,10 +344,32 @@ st.markdown("""
     .evaluation-white-box [data-testid="stMarkdownContainer"] p {
         color: #000000 !important;
     }
-    /* Restores text visibility within native alert strings inside white card elements */
-    .evaluation-white-box div[data-testid="stNotification"] p {
-        color: inherit !important;
+    
+    /* --- RESTORE STREAMLIT ALERT THEME BOXES CORRECTIONS --- */
+    /* Forces correct alert boxes to display clear green background templates with matching green text */
+    .evaluation-white-box div[data-testid="stNotificationV2"]: has(div[data-testid="stBaseAlert-success"]),
+    .evaluation-white-box div[data-testid="stBaseAlert-success"],
+    .evaluation-white-box .stAlert:has(.fa-check) {
+        background-color: #e8f5e9 !important;
+        border-left: 5px solid #2e7d32 !important;
     }
+    .evaluation-white-box div[data-testid="stBaseAlert-success"] p,
+    .evaluation-white-box div[data-testid="stBaseAlert-success"] div {
+        color: #1b5e20 !important;
+    }
+
+    /* Forces wrong alert boxes to display clear red background templates with matching red text */
+    .evaluation-white-box div[data-testid="stNotificationV2"]:has(div[data-testid="stBaseAlert-danger"]),
+    .evaluation-white-box div[data-testid="stBaseAlert-danger"],
+    .evaluation-white-box .stAlert:has(.fa-times) {
+        background-color: #ffebee !important;
+        border-left: 5px solid #c62828 !important;
+    }
+    .evaluation-white-box div[data-testid="stBaseAlert-danger"] p,
+    .evaluation-white-box div[data-testid="stBaseAlert-danger"] div {
+        color: #b71c1c !important;
+    }
+
     .evaluation-white-box div[data-testid="stMetricValue"] div {
         color: #0b5ea8 !important;
     }
@@ -409,7 +426,6 @@ with tabs[1]:
     st.subheader("🧠 Unlimited Self-Assessment Test")
     st.write("Practise an infinite variety of combinations. Questions mirror identification styles seen in the board exam.")
     
-    # Securely lock quiz configurations inside state arrays once
     if "quiz_data" not in st.session_state:
         all_items = [(cat, item) for cat, items in MAP_DATA.items() for item in items]
         st.session_state.quiz_data = random.sample(all_items, min(5, len(all_items)))
@@ -439,13 +455,10 @@ with tabs[1]:
         st.session_state.quiz_options = quiz_options
         st.rerun()
 
-    # Safely load fixed question frames from persistent state data structures
     for idx, (cat, item) in enumerate(st.session_state.quiz_data):
         st.markdown(f"**Question {idx+1}:** Identify the correct State/Territory where the listed feature **'{item['name']}'** (From *{cat}*) is located:")
         
         options = st.session_state.quiz_options[idx]
-        
-        # Fixed lookup layout prevents traceback loop during frame resets
         user_choice = st.session_state.answers.get(idx)
         radio_index = options.index(user_choice) if user_choice in options else None
         
@@ -457,13 +470,11 @@ with tabs[1]:
         )
         st.divider()
 
-    # Create HTML anchor link target ID layout just before evaluating score block
     st.markdown('<div id="evaluation-score-anchor"></div>', unsafe_allow_html=True)
 
     if st.button("📤 Submit Final Answer Sheet"):
         st.session_state.submitted = True
 
-    # Render all results inside an isolated clean white box so alert cards look original and visible
     if st.session_state.submitted:
         st.markdown('<div class="evaluation-white-box">', unsafe_allow_html=True)
         st.subheader("📊 Performance Summary & Analysis")
@@ -480,7 +491,6 @@ with tabs[1]:
         st.metric(label="Your Mock Evaluation Score", value=f"{score} / 5")
         st.markdown('</div>', unsafe_allow_html=True)
 
-        # Injects runtime scrolling framework instantly to position the viewport to results area
         js_scroll = """
         <script>
             var el = window.parent.document.getElementById("evaluation-score-anchor");

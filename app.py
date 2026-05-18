@@ -234,7 +234,7 @@ st.markdown("""
         color: #ffffff !important;
     }
     
-    /* --- FIXED MOBILE SELECT MENU OVERRIDES --- */
+    /* --- UNIVERSAL DROPDOWN FIX (DESKTOP & MOBILE) --- */
     div[data-baseweb="select"] > div {
         background-color: #1a2d3b !important;
         border: 1px solid rgba(255, 255, 255, 0.3) !important;
@@ -243,7 +243,8 @@ st.markdown("""
         color: #ffffff !important;
     }
     
-    /* Targets any base menu list container across desktop and mobile devices */
+    /* Forces dark background on dropdown wrappers for both environments */
+    div[data-baseweb="popover"],
     div[data-baseweb="popover"] ul, 
     ul[role="listbox"], 
     div[role="listbox"] {
@@ -251,7 +252,7 @@ st.markdown("""
         border: 1px solid rgba(255, 255, 255, 0.2) !important;
     }
     
-    /* Forces dropdown options to maintain dark backgrounds and white text everywhere */
+    /* Forces option text and backgrounds to match everywhere */
     ul[role="listbox"] li, 
     ul[role="listbox"] div,
     div[role="listbox"] div,
@@ -261,14 +262,15 @@ st.markdown("""
         background-color: #1a2d3b !important;
     }
     
-    /* Hover adjustments for touch/desktop targets */
+    /* Global hover / active selection states */
     ul[role="listbox"] li:hover, 
     ul[role="listbox"] li[aria-selected="true"],
-    div[role="option"]:hover {
+    div[role="option"]:hover,
+    div[role="option"][aria-selected="true"] {
         background-color: #26a0da !important;
         color: #ffffff !important;
     }
-    /* ----------------------------------------- */
+    /* ------------------------------------------------- */
 
     span[data-baseweb="tag"] {
         background-color: #26a0da !important;

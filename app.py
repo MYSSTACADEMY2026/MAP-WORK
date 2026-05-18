@@ -207,7 +207,7 @@ st.markdown("""
         background-color: #ffffff !important;
     }
     ul[role="listbox"] li:hover {
-        background-color: #e3f2fd !important; /* light blue highlight on hovering selections */
+        background-color: #ffffff !important; /* light blue highlight on hovering selections */
     }
 
     /* Target chosen pills/chips inside multiselect containers */

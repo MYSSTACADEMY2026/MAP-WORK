@@ -230,53 +230,9 @@ st.markdown("""
         color: #ffffff;
         margin: 0;
     }
-    h1, h2, h3, h4, h5, h6, label, p, .stWidgetLabel {
-        color: #ffffff !important;
-    }
     
-    /* --- UNIVERSAL DROPDOWN FIX (DESKTOP & MOBILE) --- */
-    div[data-baseweb="select"] > div {
-        background-color: #1a2d3b !important;
-        border: 1px solid rgba(255, 255, 255, 0.3) !important;
-    }
-    div[data-baseweb="select"] div {
-        color: #ffffff !important;
-    }
-    
-    /* Forces dark background on dropdown wrappers for both environments */
-    div[data-baseweb="popover"],
-    div[data-baseweb="popover"] ul, 
-    ul[role="listbox"], 
-    div[role="listbox"] {
-        background-color: #1a2d3b !important;
-        border: 1px solid rgba(255, 255, 255, 0.2) !important;
-    }
-    
-    /* Forces option text and backgrounds to match everywhere */
-    ul[role="listbox"] li, 
-    ul[role="listbox"] div,
-    div[role="listbox"] div,
-    div[role="option"],
-    div[data-baseweb="popover"] span {
-        color: #ffffff !important;
-        background-color: #1a2d3b !important;
-    }
-    
-    /* Global hover / active selection states */
-    ul[role="listbox"] li:hover, 
-    ul[role="listbox"] li[aria-selected="true"],
-    div[role="option"]:hover,
-    div[role="option"][aria-selected="true"] {
-        background-color: #26a0da !important;
-        color: #ffffff !important;
-    }
-    /* ------------------------------------------------- */
-
-    span[data-baseweb="tag"] {
-        background-color: #26a0da !important;
-        color: #ffffff !important;
-    }
-    span[data-baseweb="tag"] span {
+    /* Global Base Typography Rules */
+    h1, h2, h3, h4, h5, h6, label, .stWidgetLabel {
         color: #ffffff !important;
     }
     div[data-testid="stMarkdownContainer"] p {
@@ -285,6 +241,52 @@ st.markdown("""
     label[data-testid="stWidgetLabel"] p {
         color: #ffffff !important;
         font-weight: 600 !important;
+    }
+
+    /* --- CROSS-PLATFORM COMPATIBLE SELECT DROPDOWN OVERRIDES --- */
+    /* Keeps the closed selection box stylishly integrated with the dashboard theme */
+    div[data-baseweb="select"] > div {
+        background-color: #1a2d3b !important;
+        border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    }
+    div[data-baseweb="select"] div {
+        color: #ffffff !important;
+    }
+    
+    /* Standardizes the hidden overlay container layers to use high-contrast native UI values */
+    div[data-baseweb="popover"], 
+    div[role="listbox"], 
+    ul[role="listbox"] {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+    }
+
+    /* Standardizes dropdown options for 100% readability across desktop & mobile targets */
+    div[role="option"], 
+    div[role="option"] span,
+    ul[role="listbox"] li, 
+    ul[role="listbox"] div,
+    div[data-baseweb="popover"] span {
+        color: #000000 !important;
+        background-color: #ffffff !important;
+    }
+
+    /* Uniform active/hover states when scrolling down options on desktop or using touch on mobile */
+    div[role="option"]:hover,
+    div[role="option"][aria-selected="true"],
+    ul[role="listbox"] li:hover,
+    ul[role="listbox"] li[aria-selected="true"] {
+        background-color: #26a0da !important;
+        color: #ffffff !important;
+    }
+    /* ----------------------------------------------------------- */
+
+    span[data-baseweb="tag"] {
+        background-color: #26a0da !important;
+        color: #ffffff !important;
+    }
+    span[data-baseweb="tag"] span {
+        color: #ffffff !important;
     }
     div.stButton > button {
         background: linear-gradient(to right, #314755 0%, #26a0da 51%, #314755 100%) !important;

@@ -193,7 +193,7 @@ st.set_page_config(page_title="CBSE Class 10 Map Prep Terminal", layout="wide")
 
 # Injection of UI/UX Branding Elements matching Portal Core Hub Themes
 st.markdown("""
-    <style>
+<style>
     .stApp {
         background: linear-gradient(180deg, #0b5ea8 0%, #314755 55%, #26a0da 100%) !important;
         color: #ffffff !important;
@@ -233,6 +233,8 @@ st.markdown("""
     h1, h2, h3, h4, h5, h6, label, p, .stWidgetLabel {
         color: #ffffff !important;
     }
+    
+    /* --- FIXED MOBILE SELECT MENU OVERRIDES --- */
     div[data-baseweb="select"] > div {
         background-color: #1a2d3b !important;
         border: 1px solid rgba(255, 255, 255, 0.3) !important;
@@ -240,20 +242,34 @@ st.markdown("""
     div[data-baseweb="select"] div {
         color: #ffffff !important;
     }
-    div[data-baseweb="popover"] ul, ul[role="listbox"] {
-        background-color: #ffffff !important;
+    
+    /* Targets any base menu list container across desktop and mobile devices */
+    div[data-baseweb="popover"] ul, 
+    ul[role="listbox"], 
+    div[role="listbox"] {
+        background-color: #1a2d3b !important;
         border: 1px solid rgba(255, 255, 255, 0.2) !important;
     }
+    
+    /* Forces dropdown options to maintain dark backgrounds and white text everywhere */
     ul[role="listbox"] li, 
     ul[role="listbox"] div,
+    div[role="listbox"] div,
+    div[role="option"],
     div[data-baseweb="popover"] span {
         color: #ffffff !important;
         background-color: #1a2d3b !important;
     }
+    
+    /* Hover adjustments for touch/desktop targets */
     ul[role="listbox"] li:hover, 
-    ul[role="listbox"] li[aria-selected="true"] {
+    ul[role="listbox"] li[aria-selected="true"],
+    div[role="option"]:hover {
         background-color: #26a0da !important;
+        color: #ffffff !important;
     }
+    /* ----------------------------------------- */
+
     span[data-baseweb="tag"] {
         background-color: #26a0da !important;
         color: #ffffff !important;

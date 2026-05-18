@@ -197,7 +197,7 @@ st.markdown("""
        ========================================================================== */
     /* Target select box input fields container */
     div[data-baseweb="select"] div {
-        color: #000000 !important; /* Force visible black/dark text inside active selectors */
+        color: #FFD700 !important; /* Force visible black/dark text inside active selectors */
         background-color: #ffffff !important;
     }
     

@@ -201,15 +201,15 @@ st.markdown("""
     .branding-container {
         display: flex;
         align-items: center;
-        gap: 20px;
-        padding: 15px;
+        gap: 15px;
+        padding: 10px;
         background: rgba(255, 255, 255, 0.1);
         border-radius: 12px;
         border: 1px solid rgba(255, 255, 255, 0.15);
-        margin-bottom: 25px;
+        margin-bottom: 20px;
     }
     .brand-logo {
-        height: 85px;
+        height: 100px;
         object-fit: contain;
     }
     .brand-text-block {
@@ -217,7 +217,7 @@ st.markdown("""
         flex-direction: column;
     }
     .main-academy-title {
-        font-size: 38px;
+        font-size: 45px;
         font-weight: 800;
         color: #FFD700;
         margin: 0;
@@ -225,7 +225,7 @@ st.markdown("""
         font-family: sans-serif;
     }
     .sub-academy-title {
-        font-size: 20px;
+        font-size: 15px;
         font-weight: 600;
         color: #ffffff;
         margin: 0;

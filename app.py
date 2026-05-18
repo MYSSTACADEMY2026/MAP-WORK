@@ -187,38 +187,61 @@ st.markdown("""
         margin: 0;
     }
     
-    /* Force text elements to always remain visible white */
-    h1, h2, h3, h4, h5, h6, label, p, .stWidgetLabel, div, span {
+    /* Global basic overrides */
+    h1, h2, h3, h4, h5, h6, label, p, .stWidgetLabel {
         color: #ffffff !important;
     }
     
     /* ==========================================================================
-       CRITICAL FIX: SELECT BOX / MULTISELECT DROPDOWN VISIBILITY REPAIR
+       COMPLETE SELECTBOX & DROPDOWN RE-STYLING (HIGH CONTRAST MODE)
        ========================================================================== */
-    /* Target select box input fields container */
+    /* Target primary select container cards */
     div[data-baseweb="select"] > div {
-        color: #212121 !important; /* Premium off-black for select value text */
-        background-color: #ffffff !important; /* Perfect high-contrast white background */
+        background-color: #1a2d3b !important;
+        border: 1px solid rgba(255, 255, 255, 0.3) !important;
     }
     
-    /* Target the dropdown overlay popover container and individual list items */
-    ul[role="listbox"] {
-        background-color: #ffffff !important;
+    /* Force main visible text inside un-opened select fields to white */
+    div[data-baseweb="select"] div {
+        color: #ffffff !important;
     }
-    ul[role="listbox"] li, ul[role="listbox"] div {
-        color: #212121 !important; /* Force visible dark options inside selection menus */
-        background-color: #ffffff !important;
+    
+    /* Clear and high-contrast styling for the option popovers list */
+    div[data-baseweb="popover"] ul, ul[role="listbox"] {
+        background-color: #1a2d3b !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
     }
-    ul[role="listbox"] li:hover, ul[role="listbox"] li[aria-selected="true"] {
-        background-color: #e3f2fd !important; /* Smooth soft-blue highlight on selected/hover item */
+    
+    /* Align text visibility properties for items inside the dropdown frame */
+    ul[role="listbox"] li, 
+    ul[role="listbox"] div,
+    div[data-baseweb="popover"] span {
+        color: #ffffff !important;
+        background-color: #1a2d3b !important;
+    }
+    
+    /* Modern color highlight on item hover state lists */
+    ul[role="listbox"] li:hover, 
+    ul[role="listbox"] li[aria-selected="true"] {
+        background-color: #26a0da !important;
+    }
+    
+    /* Target tag labels inside multi-select chips arrays */
+    span[data-baseweb="tag"] {
+        background-color: #26a0da !important;
+        color: #ffffff !important;
+    }
+    span[data-baseweb="tag"] span {
+        color: #ffffff !important;
     }
 
-    /* Target chosen pills/chips inside multiselect containers */
-    div[data-testid="stMultiSelectFloatingValue"] span, 
-    div[role="button"] span,
-    span[data-baseweb="tag"] {
+    /* Target the text alongside Radio Option Buttons inside Practice Sets */
+    div[data-testid="stMarkdownContainer"] p {
         color: #ffffff !important;
-        background-color: #314755 !important; /* Gives selected tags a themed navy-blue background badge */
+    }
+    label[data-testid="stWidgetLabel"] p {
+        color: #ffffff !important;
+        font-weight: 600 !important;
     }
     
     /* Custom Styling for Streamlit Buttons */

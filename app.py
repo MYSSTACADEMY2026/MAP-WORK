@@ -144,7 +144,8 @@ def get_coordinates(name, state):
 
 # --- Streamlit Layout Customization ---
 st.set_page_config(page_title="CBSE Class 10 Map Prep Terminal", layout="wide")
-st.title("🎯 CBSE Class X Map Works: 2026-27")
+st.title("MY SST ACADEMY")
+st.title("🎯 CBSE Class X Map Works as per Academic Session: 2026-27")
 st.write("Master your full 5 Marks syllabus items dynamically via outline map visualization or endless evaluation testing cycles.")
 
 tabs = st.tabs(["👁️ Interactive Map Viewer", "📝 Infinite Practice Sets"])

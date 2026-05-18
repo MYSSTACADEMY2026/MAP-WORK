@@ -144,17 +144,17 @@ def get_coordinates(name, state):
 
 # --- Streamlit Layout Customization ---
 st.set_page_config(page_title="CBSE Class 10 Map Prep Terminal", layout="wide")
-st.title("🎯 CBSE Class X Map Work Learning Station (2025-26)")
+st.title("🎯 CBSE Class X Map Works: 2026-27")
 st.write("Master your full 5 Marks syllabus items dynamically via outline map visualization or endless evaluation testing cycles.")
 
-tabs = st.tabs(["👁️ Interactive Map Viewer", "📝 Infinite Board Practice Game"])
+tabs = st.tabs(["👁️ Interactive Map Viewer", "📝 Infinite Practice Sets"])
 
 # --- TAB 1: SYLLABUS LAYOUT VIEWER ---
 with tabs[0]:
     col1, col2 = st.columns([1, 3])
     
     with col1:
-        st.subheader("Syllabus Filter")
+        st.subheader("As per CBSE Syllabus- 2026-27")
         category = st.selectbox("Choose Textbook Map Topic", list(MAP_DATA.keys()))
         
         places_in_cat = [item["name"] for item in MAP_DATA[category]]
@@ -180,7 +180,7 @@ with tabs[0]:
 
 # --- TAB 2: INFINITE PRACTICE ROOM ---
 with tabs[1]:
-    st.subheader("🧠 Unlimited Self-Assessment Test Room")
+    st.subheader("🧠 Unlimited Self-Assessment Test")
     st.write("Practise an infinite variety of combinations. Questions mirror identification styles seen in the board exam.")
     
     if "quiz_data" not in st.session_state:
@@ -189,7 +189,7 @@ with tabs[1]:
         st.session_state.answers = {}
         st.session_state.submitted = False
 
-    if st.button("🔄 Roll a New Mock Test Set"):
+    if st.button("🔄New Mock Test Set"):
         all_items = [(cat, item) for cat, items in MAP_DATA.items() for item in items]
         st.session_state.quiz_data = random.sample(all_items, 5)
         st.session_state.answers = {}

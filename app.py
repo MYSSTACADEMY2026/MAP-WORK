@@ -192,7 +192,7 @@ st.set_page_config(page_title="CBSE Class 10 Map Prep Terminal", layout="wide")
 st.markdown("""
 <style>
     .stApp {
-       background: linear-gradient(180deg, #1e1b4b 0%, #1d4ed8 55%, #3b82f6 100%) !important;
+       background: linear-gradient(180deg, #141419 0%, #24252a 55%, #3a3b45 100%) !important;
         color: #ffffff !important;
     }
     .branding-container {

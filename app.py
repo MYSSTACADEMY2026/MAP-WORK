@@ -119,7 +119,7 @@ MAP_DATA = {
     ]
 }
 
-# Geocoding function logic with customized search handling for textbook parameters
+# Geocoding function logic with customized search handling
 @st.cache_data
 def get_coordinates(name, state):
     try:
@@ -131,7 +131,6 @@ def get_coordinates(name, state):
     except Exception:
         pass
     
-    # Direct reliable coordinate overrides for complex terms
     fallbacks = {
         "Mumbai High": [19.4192, 71.3831], "Bassein": [19.3304, 72.8101],
         "Bailadila": [18.6214, 81.2494], "Kudremukh": [13.2181, 75.2479],
@@ -144,8 +143,117 @@ def get_coordinates(name, state):
 
 # --- Streamlit Layout Customization ---
 st.set_page_config(page_title="CBSE Class 10 Map Prep Terminal", layout="wide")
-st.title("MY SST ACADEMY")
-st.title("🎯 CBSE Class X Map Works as per Academic Session: 2026-27")
+
+# Injection of UI/UX Branding Elements matching Portal Core Hub Themes
+st.markdown("""
+    <style>
+    /* Main Background Theme Setup */
+    .stApp {
+        background: linear-gradient(180deg, #0b5ea8 0%, #314755 55%, #26a0da 100%) !important;
+        color: #ffffff !important;
+    }
+    
+    /* Unified Header Custom Container */
+    .branding-container {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        padding: 15px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        margin-bottom: 25px;
+    }
+    .brand-logo {
+        height: 85px;
+        object-fit: contain;
+    }
+    .brand-text-block {
+        display: flex;
+        flex-direction: column;
+    }
+    .main-academy-title {
+        font-size: 38px;
+        font-weight: 800;
+        color: #FFD700;
+        margin: 0;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+        font-family: sans-serif;
+    }
+    .sub-academy-title {
+        font-size: 20px;
+        font-weight: 600;
+        color: #ffffff;
+        margin: 0;
+    }
+    
+    /* Styled Markdown and Labels across app elements */
+    h1, h2, h3, h4, h5, h6, label, p, .stWidgetLabel, div {
+        color: #ffffff !important;
+    }
+    
+    /* Custom Styling for Streamlit Buttons */
+    div.stButton > button {
+        background: linear-gradient(to right, #314755 0%, #26a0da 51%, #314755 100%) !important;
+        color: white !important;
+        border-radius: 8px !important;
+        padding: 12px 28px !important;
+        font-size: 16px !important;
+        font-weight: bold !important;
+        text-transform: uppercase !important;
+        border: 1px solid rgba(255,255,255,0.2) !important;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2) !important;
+        transition: 0.5s !important;
+        background-size: 200% auto !important;
+        width: 100%;
+    }
+    div.stButton > button:hover {
+        background-position: right center !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.4) !important;
+    }
+    
+    /* Clean Cards for Dropdown Selectors & Modules */
+    div[data-testid="stBlock"] {
+        background: rgba(255, 255, 255, 0.08) !important;
+        padding: 20px !important;
+        border-radius: 12px !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    }
+    
+    /* Tab Styling Overrides */
+    button[data-baseweb="tab"] {
+        color: #ffffff !important;
+        font-weight: bold !important;
+        font-size: 16px !important;
+    }
+    button[aria-selected="true"] {
+        color: #FFD700 !important;
+        border-bottom-color: #FFD700 !important;
+    }
+    
+    /* Metric / Evaluation Score Box styles */
+    div[data-testid="stMetricValue"] {
+        color: #FFD700 !important;
+        font-size: 42px !important;
+        font-weight: 800 !important;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
+# Custom Header Wrapper Injection with Image Logo Array
+LOGO_URL = "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiQ6lxEfFnImeGWEf7I7Fg9z-uCCkAdKWwxtHLn4zzcyCElV3DupEdwzEKpBin5ucTMpCLDbgwqN_cUkj7qhXDdgAIAvIFLdSJfl2byeN8e4_4oaVImEQQB9lYD-5qrC0mDqWWdXEFuhXy6jViTvcc-6LB6sJa3a2okWqasLjDKMoOxcbvtlUwCLxP5JEl6/s320/Gemini_Generated_Image_ce701rce701rce70-removebg-preview.png"
+
+st.markdown(f"""
+    <div class="branding-container">
+        <img class="brand-logo" src="{LOGO_URL}" alt="MY SST ACADEMY LOGO">
+        <div class="brand-text-block">
+            <h1 class="main-academy-title">MY SST ACADEMY</h1>
+            <h2 class="sub-academy-title">🎯 CBSE Class X Map Works as per Academic Session: 2026-27</h2>
+        </div>
+    </div>
+""", unsafe_allow_html=True)
+
 st.write("Master your full 5 Marks syllabus items dynamically via outline map visualization or endless evaluation testing cycles.")
 
 tabs = st.tabs(["👁️ Interactive Map Viewer", "📝 Infinite Practice Sets"])
@@ -155,7 +263,7 @@ with tabs[0]:
     col1, col2 = st.columns([1, 3])
     
     with col1:
-        st.subheader("As per CBSE Syllabus- 2026-27")
+        st.subheader("Syllabus Engine Layout")
         category = st.selectbox("Choose Textbook Map Topic", list(MAP_DATA.keys()))
         
         places_in_cat = [item["name"] for item in MAP_DATA[category]]
@@ -190,7 +298,7 @@ with tabs[1]:
         st.session_state.answers = {}
         st.session_state.submitted = False
 
-    if st.button("🔄New Mock Test Set"):
+    if st.button("🔄 New Mock Test Set"):
         all_items = [(cat, item) for cat, items in MAP_DATA.items() for item in items]
         st.session_state.quiz_data = random.sample(all_items, 5)
         st.session_state.answers = {}
@@ -200,7 +308,6 @@ with tabs[1]:
     for idx, (cat, item) in enumerate(st.session_state.quiz_data):
         st.markdown(f"**Question {idx+1}:** Identify the correct State/Territory where the listed feature **'{item['name']}'** (From *{cat}*) is located:")
         
-        # Pull wrong location tags from the dataset to mix up options cleanly
         wrong_states = list(set([i["state"] for c, items in MAP_DATA.items() for i in items if i["state"] != item["state"]]))
         options = list(set([item["state"]] + random.sample(wrong_states, min(3, len(wrong_states)))))
         random.shuffle(options)

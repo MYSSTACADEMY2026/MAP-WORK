@@ -2,6 +2,7 @@ import streamlit as st
 import folium
 from streamlit_folium import st_folium
 import random
+import streamlit.components.v1 as components
 
 # --- COMPLETE CBSE MAP COORDINATES DATASET (Prevents Cloud Timeouts) ---
 # Hardcoded to bypass runtime geolocator network blocks entirely
@@ -244,16 +245,19 @@ st.markdown("""
     }
 
     /* --- CROSS-PLATFORM COMPATIBLE SELECT DROPDOWN OVERRIDES --- */
-    /* Keeps the closed selection box stylishly integrated with the dashboard theme */
     div[data-baseweb="select"] > div {
         background-color: #1a2d3b !important;
         border: 1px solid rgba(255, 255, 255, 0.3) !important;
     }
+    /* Restored dropdown arrow and selection text color visibility */
+    div[data-baseweb="select"] [data-testid="stMarkdownContainer"] p,
+    div[data-baseweb="select"] svg,
     div[data-baseweb="select"] div {
         color: #ffffff !important;
+        fill: #ffffff !important;
     }
         
-    /* Standardizes the hidden overlay container layers to use high-contrast native UI values */
+    /* Standardizes hidden popup overlay container layers to use high-contrast dark values */
     div[data-baseweb="popover"], 
     div[role="listbox"], 
     ul[role="listbox"] {
@@ -428,6 +432,9 @@ with tabs[1]:
         )
         st.divider()
 
+    # Create HTML anchor link target ID layout just before evaluating score block
+    st.markdown('<div id="evaluation-score-anchor"></div>', unsafe_allow_html=True)
+
     if st.button("📤 Submit Final Answer Sheet"):
         st.session_state.submitted = True
         score = 0
@@ -441,3 +448,15 @@ with tabs[1]:
                 st.error(f"❌ Question {idx+1}: Wrong Choice. **{item['name']}** is located within **{correct_ans}** (You selected: {user_ans}).")
         
         st.metric(label="Your Mock Evaluation Score", value=f"{score} / 5")
+
+    # Injects runtime scrolling framework instantly to position the viewport to results area
+    if st.session_state.submitted:
+        js_scroll = """
+        <script>
+            var el = window.parent.document.getElementById("evaluation-score-anchor");
+            if(el) {
+                el.scrollIntoView({behavior: "smooth", block: "center"});
+            }
+        </script>
+        """
+        components.html(js_scroll, height=0, width=0)

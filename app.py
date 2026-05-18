@@ -249,7 +249,7 @@ st.markdown("""
         background-color: #1a2d3b !important;
         border: 1px solid rgba(255, 255, 255, 0.3) !important;
     }
-    /* Restored dropdown arrow and selection text color visibility */
+    /* Fixed visibility of dropdown arrows and selection labels */
     div[data-baseweb="select"] [data-testid="stMarkdownContainer"] p,
     div[data-baseweb="select"] svg,
     div[data-baseweb="select"] div {
@@ -330,6 +330,31 @@ st.markdown("""
         color: #FFD700 !important;
         font-size: 42px !important;
         font-weight: 800 !important;
+    }
+
+    /* Isolated White Box Layout Styles for Results Container */
+    .evaluation-white-box {
+        background-color: #ffffff !important;
+        padding: 25px !important;
+        border-radius: 12px !important;
+        border: 2px solid #e0e0e0 !important;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.15) !important;
+        margin-top: 20px;
+        color: #000000 !important;
+    }
+    .evaluation-white-box h3, 
+    .evaluation-white-box p, 
+    .evaluation-white-box div, 
+    .evaluation-white-box span,
+    .evaluation-white-box [data-testid="stMarkdownContainer"] p {
+        color: #000000 !important;
+    }
+    /* Restores text visibility within native alert strings inside white card elements */
+    .evaluation-white-box div[data-testid="stNotification"] p {
+        color: inherit !important;
+    }
+    .evaluation-white-box div[data-testid="stMetricValue"] div {
+        color: #0b5ea8 !important;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -437,6 +462,11 @@ with tabs[1]:
 
     if st.button("📤 Submit Final Answer Sheet"):
         st.session_state.submitted = True
+
+    # Render all results inside an isolated clean white box so alert cards look original and visible
+    if st.session_state.submitted:
+        st.markdown('<div class="evaluation-white-box">', unsafe_allow_html=True)
+        st.subheader("📊 Performance Summary & Analysis")
         score = 0
         for idx, (cat, item) in enumerate(st.session_state.quiz_data):
             user_ans = st.session_state.answers.get(idx)
@@ -448,9 +478,9 @@ with tabs[1]:
                 st.error(f"❌ Question {idx+1}: Wrong Choice. **{item['name']}** is located within **{correct_ans}** (You selected: {user_ans}).")
         
         st.metric(label="Your Mock Evaluation Score", value=f"{score} / 5")
+        st.markdown('</div>', unsafe_allow_html=True)
 
-    # Injects runtime scrolling framework instantly to position the viewport to results area
-    if st.session_state.submitted:
+        # Injects runtime scrolling framework instantly to position the viewport to results area
         js_scroll = """
         <script>
             var el = window.parent.document.getElementById("evaluation-score-anchor");

@@ -326,7 +326,7 @@ st.markdown("""
     div[data-testid="stNotificationV2"], 
     div[data-testid="stBaseAlert-success"],
     div[data-testid="stBaseAlert-danger"] {
-        background-color: #ffffff !important;
+        background-color: #1a2530 !important;
         border-radius: 8px !important;
         box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important;
     }
@@ -336,7 +336,7 @@ st.markdown("""
     div[data-testid="stBaseAlert-success"] div,
     div[data-testid="stBaseAlert-danger"] p,
     div[data-testid="stBaseAlert-danger"] div {
-        color: #1a2530 !important;
+        color: #ffffff !important;
         font-weight: 600 !important;
     }
 

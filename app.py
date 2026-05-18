@@ -208,7 +208,7 @@ st.markdown("""
     
     /* Clear and high-contrast styling for the option popovers list */
     div[data-baseweb="popover"] ul, ul[role="listbox"] {
-        background-color: #1a2d3b !important;
+        background-color: #ffffff !important;
         border: 1px solid rgba(255, 255, 255, 0.2) !important;
     }
     

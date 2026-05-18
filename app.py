@@ -1,10 +1,10 @@
+```python
 import streamlit as st
 import folium
 from streamlit_folium import st_folium
 import random
 
-# --- COMPLETE CBSE MAP COORDINATES DATASET (Prevents Cloud Timeouts) ---
-# Hardcoded to bypass runtime geolocator network blocks entirely
+# --- COMPLETE CBSE MAP COORDINATES DATASET ---
 COORDINATE_LOOKUP = {
     "Calcutta (Sept. 1920)": [22.5726, 88.3639],
     "Nagpur (Dec. 1920)": [21.1458, 79.0882],
@@ -81,106 +81,20 @@ COORDINATE_LOOKUP = {
     "Hyderabad (Rajiv Gandhi)": [17.2403, 78.4294]
 }
 
-# Comprehensive CBSE Class X Map Work Dataset
+# --- SAMPLE MAP DATA ---
 MAP_DATA = {
     "History: Congress Sessions": [
         {"name": "Calcutta (Sept. 1920)", "state": "West Bengal"},
         {"name": "Nagpur (Dec. 1920)", "state": "Maharashtra"},
         {"name": "Madras (1927)", "state": "Tamil Nadu"}
     ],
+
     "History: Freedom Movement Important Centres": [
         {"name": "Champaran (Indigo Planters)", "state": "Bihar"},
         {"name": "Kheda (Peasant Satyagraha)", "state": "Gujarat"},
         {"name": "Ahmedabad (Cotton Mill Workers)", "state": "Gujarat"},
         {"name": "Jallianwala Bagh (Amritsar)", "state": "Punjab"},
         {"name": "Dandi (Civil Disobedience)", "state": "Gujarat"}
-    ],
-    "Geography: Important Dams": [
-        {"name": "Salal", "state": "Jammu & Kashmir"},
-        {"name": "Bhakra Nangal", "state": "Himachal Pradesh"},
-        {"name": "Tehri", "state": "Uttarakhand"},
-        {"name": "Rana Pratap Sagar", "state": "Rajasthan"},
-        {"name": "Sardar Sarovar", "state": "Gujarat"},
-        {"name": "Hirakud", "state": "Odisha"},
-        {"name": "Nagarjuna Sagar", "state": "Telangana"},
-        {"name": "Tungbhadra", "state": "Karnataka"}
-    ],
-    "Geography: Iron Ore Mines": [
-        {"name": "Mayurbhanj", "state": "Odisha"},
-        {"name": "Durg", "state": "Chhattisgarh"},
-        {"name": "Bailadila", "state": "Chhattisgarh"},
-        {"name": "Bellary", "state": "Karnataka"},
-        {"name": "Kudremukh", "state": "Karnataka"}
-    ],
-    "Geography: Coal Mines": [
-        {"name": "Raniganj", "state": "West Bengal"},
-        {"name": "Bokaro (Coal Mine)", "state": "Jharkhand"},
-        {"name": "Talcher", "state": "Odisha"},
-        {"name": "Neyveli", "state": "Tamil Nadu"}
-    ],
-    "Geography: Oil Fields": [
-        {"name": "Digboi", "state": "Assam"},
-        {"name": "Naharkatia", "state": "Assam"},
-        {"name": "Mumbai High", "state": "Arabian Sea"},
-        {"name": "Bassein", "state": "Arabian Sea"},
-        {"name": "Kalol", "state": "Gujarat"},
-        {"name": "Ankleshwar", "state": "Gujarat"}
-    ],
-    "Geography: Thermal Power Plants": [
-        {"name": "Namrup", "state": "Assam"},
-        {"name": "Singrauli", "state": "Madhya Pradesh"},
-        {"name": "Ramagundam", "state": "Telangana"}
-    ],
-    "Geography: Nuclear Power Plants": [
-        {"name": "Narora", "state": "Uttar Pradesh"},
-        {"name": "Kakrapar", "state": "Gujarat"},
-        {"name": "Tarapur", "state": "Maharashtra"},
-        {"name": "Kalpakkam", "state": "Tamil Nadu"}
-    ],
-    "Geography: Cotton Textile Industries": [
-        {"name": "Mumbai (Cotton Textile)", "state": "Maharashtra"},
-        {"name": "Indore", "state": "Madhya Pradesh"},
-        {"name": "Surat", "state": "Gujarat"},
-        {"name": "Kanpur", "state": "Uttar Pradesh"},
-        {"name": "Coimbatore", "state": "Tamil Nadu"}
-    ],
-    "Geography: Iron and Steel Plants": [
-        {"name": "Durgapur", "state": "West Bengal"},
-        {"name": "Bokaro (Iron & Steel)", "state": "Jharkhand"},
-        {"name": "Jamshedpur", "state": "Jharkhand"},
-        {"name": "Bhilai", "state": "Chhattisgarh"},
-        {"name": "Vijayanagar", "state": "Karnataka"},
-        {"name": "Salem", "state": "Tamil Nadu"}
-    ],
-    "Geography: Software Technology Parks": [
-        {"name": "Noida", "state": "Uttar Pradesh"},
-        {"name": "Gandhinagar", "state": "Gujarat"},
-        {"name": "Mumbai (STP)", "state": "Maharashtra"},
-        {"name": "Pune", "state": "Maharashtra"},
-        {"name": "Hyderabad", "state": "Telangana"},
-        {"name": "Bengaluru", "state": "Karnataka"},
-        {"name": "Chennai (STP)", "state": "Tamil Nadu"},
-        {"name": "Thiruvananthapuram", "state": "Kerala"}
-    ],
-    "Geography: Major Sea Ports": [
-        {"name": "Kandla", "state": "Gujarat"},
-        {"name": "Mumbai (Port)", "state": "Maharashtra"},
-        {"name": "Marmagao", "state": "Goa"},
-        {"name": "New Mangalore", "state": "Karnataka"},
-        {"name": "Kochi", "state": "Kerala"},
-        {"name": "Tuticorin", "state": "Tamil Nadu"},
-        {"name": "Chennai (Port)", "state": "Tamil Nadu"},
-        {"name": "Vishakhapatnam", "state": "Andhra Pradesh"},
-        {"name": "Paradip", "state": "Odisha"},
-        {"name": "Haldia", "state": "West Bengal"}
-    ],
-    "Geography: International Airports": [
-        {"name": "Amritsar (Raja Sansi - Sri Guru Ram Das ji)", "state": "Punjab"},
-        {"name": "Delhi (Indira Gandhi)", "state": "Delhi"},
-        {"name": "Mumbai (Chhatrapati Shivaji)", "state": "Maharashtra"},
-        {"name": "Chennai (Meenambakkam)", "state": "Tamil Nadu"},
-        {"name": "Kolkata (Netaji Subhash Chandra Bose)", "state": "West Bengal"},
-        {"name": "Hyderabad (Rajiv Gandhi)", "state": "Telangana"}
     ]
 }
 
@@ -188,256 +102,397 @@ MAP_DATA = {
 def get_coordinates(name, state):
     return COORDINATE_LOOKUP.get(name, [22.0, 78.9])
 
-# --- Streamlit Layout Customization ---
-st.set_page_config(page_title="CBSE Class 10 Map Prep Terminal", layout="wide")
+# ---------------- PAGE CONFIG ----------------
+st.set_page_config(
+    page_title="CBSE Class 10 Map Prep Terminal",
+    layout="wide"
+)
 
-# Injection of UI/UX Branding Elements matching Portal Core Hub Themes
+# ---------------- CUSTOM CSS ----------------
 st.markdown("""
 <style>
-    .stApp {
-        background: linear-gradient(180deg, #0b5ea8 0%, #314755 55%, #26a0da 100%) !important;
-        color: #ffffff !important;
-    }
+
+.stApp {
+    background: linear-gradient(180deg, #0b5ea8 0%, #314755 55%, #26a0da 100%) !important;
+    color: #ffffff !important;
+}
+
+.branding-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    margin-bottom: 15px;
+}
+
+.brand-logo {
+    height: 100px;
+    object-fit: contain;
+}
+
+.brand-text-block {
+    display: flex;
+    flex-direction: column;
+}
+
+.main-academy-title {
+    font-size: 60px;
+    font-weight: 800;
+    color: #FFD700;
+    margin: 0;
+}
+
+.sub-academy-title {
+    font-size: 15px;
+    color: #ffffff;
+}
+
+div[data-baseweb="select"] > div {
+    background-color: #1a2d3b !important;
+    color: white !important;
+}
+
+div.stButton > button {
+    background: linear-gradient(to right, #314755 0%, #26a0da 100%) !important;
+    color: white !important;
+    border-radius: 10px !important;
+    width: 100%;
+    padding: 12px;
+    font-weight: bold;
+}
+
+.correct-answer {
+    background: rgba(0,255,0,0.15);
+    border-left: 5px solid lime;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 12px;
+}
+
+.wrong-answer {
+    background: rgba(255,0,0,0.15);
+    border-left: 5px solid red;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 12px;
+}
+
+iframe {
+    border-radius: 12px !important;
+}
+
+@media (max-width: 768px) {
+
     .branding-container {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 7px;
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 10px;
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        margin-bottom: 15px;
-    }
-    .brand-logo {
-        height: 100px;
-        object-fit: contain;
-    }
-    .brand-text-block {
-        display: flex;
         flex-direction: column;
+        text-align: center;
     }
+
     .main-academy-title {
-        font-size: 60px;
-        font-weight: 800;
-        color: #FFD700;
-        margin: 0;
-        text-shadow: 0 2px 4px rgba(0,0,0,0.4);
-        font-family: sans-serif;
+        font-size: 34px !important;
     }
+
     .sub-academy-title {
-        font-size: 15px;
-        font-weight: 600;
-        color: #ffffff;
-        margin: 0;
-    }
-    
-    /* Global Base Typography Rules */
-    h1, h2, h3, h4, h5, h6, label, .stWidgetLabel {
-        color: #ffffff !important;
-    }
-    div[data-testid="stMarkdownContainer"] p {
-        color: #ffffff !important;
-    }
-    label[data-testid="stWidgetLabel"] p {
-        color: #ffffff !important;
-        font-weight: 600 !important;
+        font-size: 12px !important;
     }
 
-    /* --- CROSS-PLATFORM COMPATIBLE SELECT DROPDOWN OVERRIDES --- */
-    /* Keeps the closed selection box stylishly integrated with the dashboard theme */
-    div[data-baseweb="select"] > div {
-        background-color: #1a2d3b !important;
-        border: 1px solid rgba(255, 255, 255, 0.3) !important;
-    }
-    div[data-baseweb="select"] div {
-        color: #ffffff !important;
-    }
-    
-    /* Standardizes the hidden overlay container layers to use high-contrast native UI values */
-    div[data-baseweb="popover"], 
-    div[role="listbox"], 
-    ul[role="listbox"] {
-        background-color: #ffffff !important;
-        color: #000000 !important;
+    .brand-logo {
+        height: 70px !important;
     }
 
-    /* Standardizes dropdown options for 100% readability across desktop & mobile targets */
-    div[role="option"], 
-    div[role="option"] span,
-    ul[role="listbox"] li, 
-    ul[role="listbox"] div,
-    div[data-baseweb="popover"] span {
-        color: #000000 !important;
-        background-color: #ffffff !important;
+    iframe {
+        height: 90vh !important;
     }
+}
 
-    /* Uniform active/hover states when scrolling down options on desktop or using touch on mobile */
-    div[role="option"]:hover,
-    div[role="option"][aria-selected="true"],
-    ul[role="listbox"] li:hover,
-    ul[role="listbox"] li[aria-selected="true"] {
-        background-color: #26a0da !important;
-        color: #ffffff !important;
-    }
-    /* ----------------------------------------------------------- */
-
-    span[data-baseweb="tag"] {
-        background-color: #26a0da !important;
-        color: #ffffff !important;
-    }
-    span[data-baseweb="tag"] span {
-        color: #ffffff !important;
-    }
-    div.stButton > button {
-        background: linear-gradient(to right, #314755 0%, #26a0da 51%, #314755 100%) !important;
-        color: white !important;
-        border-radius: 8px !important;
-        padding: 12px 28px !important;
-        font-size: 16px !important;
-        font-weight: bold !important;
-        text-transform: uppercase !important;
-        border: 1px solid rgba(255,255,255,0.2) !important;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.2) !important;
-        transition: 0.5s !important;
-        background-size: 200% auto !important;
-        width: 100%;
-    }
-    div.stButton > button:hover {
-        background-position: right center !important;
-        transform: translateY(-2px) !important;
-        box-shadow: 0 0 20px rgba(255, 255, 255, 0.4) !important;
-    }
-    div[data-testid="stBlock"] {
-        background: rgba(255, 255, 255, 0.08) !important;
-        padding: 20px !important;
-        border-radius: 12px !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    }
-    button[data-baseweb="tab"] {
-        color: #ffffff !important;
-        font-weight: bold !important;
-        font-size: 16px !important;
-    }
-    button[aria-selected="true"] {
-        color: #FFD700 !important;
-        border-bottom-color: #FFD700 !important;
-    }
-    div[data-testid="stMetricValue"] {
-        color: #FFD700 !important;
-        font-size: 42px !important;
-        font-weight: 800 !important;
-    }
-    </style>
+</style>
 """, unsafe_allow_html=True)
 
+# ---------------- BRANDING ----------------
 LOGO_URL = "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiQ6lxEfFnImeGWEf7I7Fg9z-uCCkAdKWwxtHLn4zzcyCElV3DupEdwzEKpBin5ucTMpCLDbgwqN_cUkj7qhXDdgAIAvIFLdSJfl2byeN8e4_4oaVImEQQB9lYD-5qrC0mDqWWdXEFuhXy6jViTvcc-6LB6sJa3a2okWqasLjDKMoOxcbvtlUwCLxP5JEl6/s320/Gemini_Generated_Image_ce701rce701rce70-removebg-preview.png"
 
 st.markdown(f"""
-    <div class="branding-container">
-        <img class="brand-logo" src="{LOGO_URL}" alt="MY SST ACADEMY LOGO">
-        <div class="brand-text-block">
-            <h1 class="main-academy-title">MY SST ACADEMY</h1>
-            <h2 class="sub-academy-title">🎯 CBSE Class X Map Works as per Academic Session: 2026-27</h2>
-        </div>
-    </div>
+<div class="branding-container">
+
+<img class="brand-logo" src="{LOGO_URL}">
+
+<div class="brand-text-block">
+<h1 class="main-academy-title">MY SST ACADEMY</h1>
+<h2 class="sub-academy-title">
+🎯 CBSE Class X Map Works as per Academic Session: 2026-27
+</h2>
+</div>
+
+</div>
 """, unsafe_allow_html=True)
 
-st.write("Master your full 5 Marks syllabus items dynamically via outline map visualization or endless evaluation testing cycles.")
+st.write(
+    "Master your full 5 Marks syllabus items dynamically via outline map visualization or endless evaluation testing cycles."
+)
 
-tabs = st.tabs(["👁️ Interactive Map Viewer", "📝 Infinite Practice Sets"])
+tabs = st.tabs([
+    "👁️ Interactive Map Viewer",
+    "📝 Infinite Practice Sets"
+])
 
-# --- TAB 1: SYLLABUS LAYOUT VIEWER ---
+# =========================================================
+# TAB 1 : MAP VIEWER
+# =========================================================
 with tabs[0]:
-    col1, col2 = st.columns([1, 3])
-    
-    with col1:
-        st.subheader("Syllabus Engine Layout")
-        category = st.selectbox("Choose Textbook Map Topic", list(MAP_DATA.keys()))
-        
-        places_in_cat = [item["name"] for item in MAP_DATA[category]]
-        selected_places = st.multiselect("Toggle Specific Locations", places_in_cat, default=places_in_cat)
-        map_style = st.selectbox("Outline Map Display Texture", ["CartoDB positron", "OpenStreetMap", "CartoDB dark_matter"])
-        
-        st.info("💡 Pro-Tip: Select 'CartoDB positron'. It strips away details, leaving a clean outline template matching your actual Board examination papers.")
 
-    with col2:
-        m = folium.Map(location=[22.0, 78.9], zoom_start=5, tiles=map_style)
-        
-        for item in MAP_DATA[category]:
-            if item["name"] in selected_places:
-                coords = get_coordinates(item["name"], item["state"])
-                folium.Marker(
-                    location=coords,
-                    popup=folium.Popup(f"<b>{item['name']}</b><br>State Location: {item['state']}<br>Syllabus Division: {category}", max_width=250),
-                    tooltip=item["name"],
-                    icon=folium.Icon(color="red" if "History" in category else "blue", icon="info-sign")
-                ).add_to(m)
-        
-        st_folium(m, width="100%", height=600)
+    st.subheader("🗺️ Syllabus Engine Layout")
 
-# --- TAB 2: INFINITE PRACTICE ROOM ---
+    category = st.selectbox(
+        "Choose Textbook Map Topic",
+        list(MAP_DATA.keys())
+    )
+
+    places_in_cat = [
+        item["name"]
+        for item in MAP_DATA[category]
+    ]
+
+    selected_places = st.multiselect(
+        "Toggle Specific Locations",
+        places_in_cat,
+        default=places_in_cat
+    )
+
+    map_style = st.selectbox(
+        "Outline Map Display Texture",
+        [
+            "CartoDB positron",
+            "OpenStreetMap",
+            "CartoDB dark_matter"
+        ]
+    )
+
+    st.info(
+        "💡 Pro-Tip: Select 'CartoDB positron'. It strips away details, leaving a clean outline template matching your actual Board examination papers."
+    )
+
+    m = folium.Map(
+        location=[22.0, 78.9],
+        zoom_start=5,
+        tiles=map_style
+    )
+
+    for item in MAP_DATA[category]:
+
+        if item["name"] in selected_places:
+
+            coords = get_coordinates(
+                item["name"],
+                item["state"]
+            )
+
+            folium.Marker(
+                location=coords,
+
+                popup=folium.Popup(
+                    f"<b>{item['name']}</b><br>"
+                    f"State Location: {item['state']}<br>"
+                    f"Syllabus Division: {category}",
+                    max_width=250
+                ),
+
+                tooltip=item["name"],
+
+                icon=folium.Icon(
+                    color="red" if "History" in category else "blue",
+                    icon="info-sign"
+                )
+
+            ).add_to(m)
+
+    st_folium(
+        m,
+        width=None,
+        height=850,
+        returned_objects=[]
+    )
+
+# =========================================================
+# TAB 2 : QUIZ SECTION
+# =========================================================
 with tabs[1]:
+
     st.subheader("🧠 Unlimited Self-Assessment Test")
-    st.write("Practise an infinite variety of combinations. Questions mirror identification styles seen in the board exam.")
-    
-    # Securely lock quiz configurations inside state arrays once
+
+    st.write(
+        "Practise an infinite variety of combinations. Questions mirror identification styles seen in the board exam."
+    )
+
     if "quiz_data" not in st.session_state:
-        all_items = [(cat, item) for cat, items in MAP_DATA.items() for item in items]
-        st.session_state.quiz_data = random.sample(all_items, min(5, len(all_items)))
+
+        all_items = [
+            (cat, item)
+            for cat, items in MAP_DATA.items()
+            for item in items
+        ]
+
+        st.session_state.quiz_data = random.sample(
+            all_items,
+            min(5, len(all_items))
+        )
+
         st.session_state.answers = {}
         st.session_state.submitted = False
-        
+
         quiz_options = {}
+
         for idx, (cat, item) in enumerate(st.session_state.quiz_data):
-            wrong_states = list(set([i["state"] for c, items in MAP_DATA.items() for i in items if i["state"] != item["state"]]))
-            options = list(set([item["state"]] + random.sample(wrong_states, min(3, len(wrong_states)))))
+
+            wrong_states = list(set([
+                i["state"]
+                for c, items in MAP_DATA.items()
+                for i in items
+                if i["state"] != item["state"]
+            ]))
+
+            options = list(set([
+                item["state"]
+            ] + random.sample(
+                wrong_states,
+                min(3, len(wrong_states))
+            )))
+
             random.shuffle(options)
+
             quiz_options[idx] = options
+
         st.session_state.quiz_options = quiz_options
 
     if st.button("🔄 New Mock Test Set"):
-        all_items = [(cat, item) for cat, items in MAP_DATA.items() for item in items]
+
+        all_items = [
+            (cat, item)
+            for cat, items in MAP_DATA.items()
+            for item in items
+        ]
+
         st.session_state.quiz_data = random.sample(all_items, 5)
+
         st.session_state.answers = {}
         st.session_state.submitted = False
-        
+
         quiz_options = {}
+
         for idx, (cat, item) in enumerate(st.session_state.quiz_data):
-            wrong_states = list(set([i["state"] for c, items in MAP_DATA.items() for i in items if i["state"] != item["state"]]))
-            options = list(set([item["state"]] + random.sample(wrong_states, min(3, len(wrong_states)))))
+
+            wrong_states = list(set([
+                i["state"]
+                for c, items in MAP_DATA.items()
+                for i in items
+                if i["state"] != item["state"]
+            ]))
+
+            options = list(set([
+                item["state"]
+            ] + random.sample(
+                wrong_states,
+                min(3, len(wrong_states))
+            )))
+
             random.shuffle(options)
+
             quiz_options[idx] = options
+
         st.session_state.quiz_options = quiz_options
+
         st.rerun()
 
-    # Safely load fixed question frames from persistent state data structures
     for idx, (cat, item) in enumerate(st.session_state.quiz_data):
-        st.markdown(f"**Question {idx+1}:** Identify the correct State/Territory where the listed feature **'{item['name']}'** (From *{cat}*) is located:")
-        
+
+        st.markdown(
+            f"""
+            ### Question {idx+1}
+
+            Identify the correct State/Territory where the listed feature
+
+            **{item['name']}**
+
+            (*{cat}*)
+
+            is located.
+            """
+        )
+
         options = st.session_state.quiz_options[idx]
-        
-        # Fixed lookup layout prevents traceback loop during frame resets
+
         user_choice = st.session_state.answers.get(idx)
-        radio_index = options.index(user_choice) if user_choice in options else None
-        
+
+        radio_index = (
+            options.index(user_choice)
+            if user_choice in options
+            else None
+        )
+
         st.session_state.answers[idx] = st.radio(
-            f"Select positioning boundary for {item['name']}:", 
-            options, 
+            f"Select positioning boundary for {item['name']}:",
+            options,
             key=f"q_{idx}",
             index=radio_index
         )
+
         st.divider()
 
     if st.button("📤 Submit Final Answer Sheet"):
+
         st.session_state.submitted = True
+
         score = 0
+
         for idx, (cat, item) in enumerate(st.session_state.quiz_data):
+
             user_ans = st.session_state.answers.get(idx)
+
             correct_ans = item["state"]
+
             if user_ans == correct_ans:
+
                 score += 1
-                st.success(f"✔️ Question {idx+1}: Correct! **{item['name']}** belongs within **{correct_ans}**.")
+
+                st.markdown(
+                    f'''
+                    <div class="correct-answer">
+                    ✔️ Question {idx+1}: Correct!<br>
+
+                    <b>{item['name']}</b> belongs within
+
+                    <span style="color:lime;">
+                    <b>{correct_ans}</b>
+                    </span>
+                    </div>
+                    ''',
+                    unsafe_allow_html=True
+                )
+
             else:
-                st.error(f"❌ Question {idx+1}: Wrong Choice. **{item['name']}** is located within **{correct_ans}** (You selected: {user_ans}).")
-        
-        st.metric(label="Your Mock Evaluation Score", value=f"{score} / 5")
+
+                st.markdown(
+                    f'''
+                    <div class="wrong-answer">
+                    ❌ Question {idx+1}: Wrong Choice.<br>
+
+                    <b>{item['name']}</b> is located within
+
+                    <span style="color:lime;">
+                    <b>{correct_ans}</b>
+                    </span>
+
+                    <br>Your Answer:
+                    <b>{user_ans}</b>
+                    </div>
+                    ''',
+                    unsafe_allow_html=True
+                )
+
+        st.metric(
+            label="🏆 Your Mock Evaluation Score",
+            value=f"{score} / 5"
+        )
+```

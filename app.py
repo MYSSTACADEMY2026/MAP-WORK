@@ -187,9 +187,32 @@ st.markdown("""
         margin: 0;
     }
     
-    /* Styled Markdown and Labels across app elements */
-    h1, h2, h3, h4, h5, h6, label, p, .stWidgetLabel, div {
+    /* Force text elements to always remain visible white */
+    h1, h2, h3, h4, h5, h6, label, p, .stWidgetLabel, div, span {
         color: #ffffff !important;
+    }
+    
+    /* ==========================================================================
+       CRITICAL FIX: SELECT BOX / MULTISELECT DROPDOWN VISIBILITY FIX
+       ========================================================================== */
+    /* Target select box input fields container */
+    div[data-baseweb="select"] div {
+        color: #000000 !important; /* Force visible black/dark text inside active selectors */
+        background-color: #ffffff !important;
+    }
+    
+    /* Target the dropdown overlay popover list items */
+    ul[role="listbox"] li, ul[role="listbox"] div {
+        color: #000000 !important; /* Make options inside dropdown list completely dark and viewable */
+        background-color: #ffffff !important;
+    }
+    ul[role="listbox"] li:hover {
+        background-color: #e3f2fd !important; /* light blue highlight on hovering selections */
+    }
+
+    /* Target chosen pills/chips inside multiselect containers */
+    div[data-testid="stMultiSelectFloatingValue"] span, div[role="button"] span {
+        color: #000000 !important;
     }
     
     /* Custom Styling for Streamlit Buttons */

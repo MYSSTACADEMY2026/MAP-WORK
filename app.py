@@ -193,26 +193,32 @@ st.markdown("""
     }
     
     /* ==========================================================================
-       CRITICAL FIX: SELECT BOX / MULTISELECT DROPDOWN VISIBILITY FIX
+       CRITICAL FIX: SELECT BOX / MULTISELECT DROPDOWN VISIBILITY REPAIR
        ========================================================================== */
     /* Target select box input fields container */
-    div[data-baseweb="select"] div {
-        color: #000000 !important; /* Force visible black/dark text inside active selectors */
-        background-color: #000000 !important;
+    div[data-baseweb="select"] > div {
+        color: #212121 !important; /* Premium off-black for select value text */
+        background-color: #ffffff !important; /* Perfect high-contrast white background */
     }
     
-    /* Target the dropdown overlay popover list items */
-    ul[role="listbox"] li, ul[role="listbox"] div {
-        color: #000000 !important; /* Make options inside dropdown list completely dark and viewable */
-        background-color: #000000 !important;
+    /* Target the dropdown overlay popover container and individual list items */
+    ul[role="listbox"] {
+        background-color: #ffffff !important;
     }
-    ul[role="listbox"] li:hover {
-        background-color: #000000 !important; /* light blue highlight on hovering selections */
+    ul[role="listbox"] li, ul[role="listbox"] div {
+        color: #212121 !important; /* Force visible dark options inside selection menus */
+        background-color: #ffffff !important;
+    }
+    ul[role="listbox"] li:hover, ul[role="listbox"] li[aria-selected="true"] {
+        background-color: #e3f2fd !important; /* Smooth soft-blue highlight on selected/hover item */
     }
 
     /* Target chosen pills/chips inside multiselect containers */
-    div[data-testid="stMultiSelectFloatingValue"] span, div[role="button"] span {
-        color: #000000 !important;
+    div[data-testid="stMultiSelectFloatingValue"] span, 
+    div[role="button"] span,
+    span[data-baseweb="tag"] {
+        color: #ffffff !important;
+        background-color: #314755 !important; /* Gives selected tags a themed navy-blue background badge */
     }
     
     /* Custom Styling for Streamlit Buttons */

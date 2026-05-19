@@ -199,7 +199,7 @@ st.markdown("""
         display: flex;
         align-items: center;
         gap: 10px;
-        padding: 7px;
+       padding: 2px 8px;
         background: rgba(255, 255, 255, 0.1);
         border-radius: 10px;
         border: 1px solid rgba(255, 255, 255, 0.15);
@@ -210,8 +210,10 @@ st.markdown("""
         object-fit: contain;
     }
     .brand-text-block {
-        display: flex;
-        flex-direction: column;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    line-height: 1.1;
     }
     .main-academy-title {
         font-size: 60px;

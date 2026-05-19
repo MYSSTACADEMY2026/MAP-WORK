@@ -371,7 +371,7 @@ with tabs[0]:
     col1, col2 = st.columns([1, 3])
     
     with col1:
-        st.subheader("Syllabus Engine Layout")
+        st.subheader("Syllabus Layout")
         category = st.selectbox("Choose Textbook Map Topic", list(MAP_DATA.keys()))
         
         places_in_cat = [item["name"] for item in MAP_DATA[category]]

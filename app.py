@@ -393,7 +393,7 @@ with tabs[0]:
                     icon=folium.Icon(color="red" if "History" in category else "blue", icon="info-sign")
                 ).add_to(m)
         
-        st_folium(m, width="100%", height=600)
+        st_folium(m, width="100%", height=950)
 
 # --- TAB 2: INFINITE PRACTICE ROOM ---
 with tabs[1]:

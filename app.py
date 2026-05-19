@@ -357,7 +357,8 @@ st.markdown(f"""
         <img class="brand-logo" src="{LOGO_URL}" alt="MY SST ACADEMY LOGO">
         <div class="brand-text-block">
             <h1 class="main-academy-title">MY SST ACADEMY</h1>
-            <h2 class="sub-academy-title">🎯 CBSE Class X Map Works as per Academic Session: 2026-27</h2>
+            <p>Excellence in Social Science</p>
+            <h2 class="sub-academy-title">CBSE Class X Map Works as per Academic Session: 2026-27</h2>
         </div>
     </div>
 """, unsafe_allow_html=True)

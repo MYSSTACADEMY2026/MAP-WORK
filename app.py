@@ -23,7 +23,7 @@ COORDINATE_LOOKUP = {
     "Rana Pratap Sagar": [24.9231, 75.5801],           # Exactly on the Rana Pratap Sagar Dam wall
     "Sardar Sarovar": [21.8310, 73.7484],              # Exactly on the main concrete gravity dam wall
     "Hirakud": [21.5284, 83.8711],                     # Center of the main concrete dam section
-    "Nagarjuna Sagar": [16.5741, 79.3135],             # Exactly on the center of the masonry dam wall
+    "Nagarjuna Sagar": [16.5755, 79.3116],             # Exactly on the center of the masonry dam wall
     "Tungbhadra": [15.2574, 76.3408],                  # Center of the Tungabhadra Dam crest gates
 
     # --- Geography: Iron Ore Mines ---

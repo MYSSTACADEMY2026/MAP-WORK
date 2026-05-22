@@ -4,82 +4,104 @@ from streamlit_folium import st_folium
 import random
 import streamlit.components.v1 as components
 
-# --- COMPLETE CBSE MAP COORDINATES DATASET ---
+# --- HYPER-EXACT CBSE MAP COORDINATES DATASET (2026 UPDATED) ---
 COORDINATE_LOOKUP = {
-    "Calcutta (Sept. 1920)": [22.5726, 88.3639],
-    "Nagpur (Dec. 1920)": [21.1458, 79.0882],
-    "Madras (1927)": [13.0827, 80.2707],
-    "Champaran (Indigo Planters)": [26.8459, 84.5161],
-    "Kheda (Peasant Satyagraha)": [22.7533, 72.6819],
-    "Ahmedabad (Cotton Mill Workers)": [23.0225, 72.5714],
-    "Jallianwala Bagh (Amritsar)": [31.6366, 74.8762],
-    "Dandi (Civil Disobedience)": [20.8916, 72.7932],
-    "Salal": [33.1534, 74.8148],
-    "Bhakra Nangal": [31.4081, 76.4347],
-    "Tehri": [30.3845, 78.4717],
-    "Rana Pratap Sagar": [24.9228, 75.5804],
-    "Sardar Sarovar": [21.8310, 73.7484],
-    "Hirakud": [21.5362, 83.8697],
-    "Nagarjuna Sagar": [16.5756, 79.3117],
-    "Tungbhadra": [15.2530, 76.3409],
-    "Mayurbhanj": [22.2400, 86.4300],
-    "Durg": [21.1900, 81.2800],
-    "Bailadila": [18.6214, 81.2494],
-    "Bellary": [15.1394, 76.9214],
-    "Kudremukh": [13.2181, 75.2479],
-    "Raniganj": [23.6120, 87.1230],
-    "Bokaro (Coal Mine)": [23.7957, 85.8290],
-    "Talcher": [20.9520, 85.2282],
-    "Neyveli": [11.5367, 79.4820],
-    "Digboi": [27.3800, 95.6300],
-    "Naharkatia": [27.2800, 95.3500],
-    "Mumbai High": [19.4192, 71.3831],
-    "Bassein": [19.3304, 72.8101],
-    "Kalol": [23.2300, 72.4900],
-    "Ankleshwar": [21.6200, 73.0200],
-    "Namrup": [27.1800, 95.3900],
-    "Singrauli": [24.1992, 82.6645],
-    "Ramagundam": [18.8029, 79.4452],
-    "Narora": [28.1929, 78.3886],
-    "Kakrapar": [21.2655, 73.3512],
-    "Tarapur": [19.8392, 72.7464],
-    "Kalpakkam": [12.5574, 80.1581],
-    "Mumbai (Cotton Textile)": [18.9220, 72.8346],
-    "Indore": [22.7196, 75.8577],
-    "Surat": [21.1702, 72.8311],
-    "Kanpur": [26.4499, 80.3319],
-    "Coimbatore": [11.0168, 76.9558],
-    "Durgapur": [23.5204, 87.3119],
-    "Bokaro (Iron & Steel)": [23.7957, 85.8290],
-    "Jamshedpur": [22.8046, 86.2029],
-    "Bhilai": [21.1938, 81.3509],
-    "Vijayanagar": [15.1932, 76.6273],
-    "Salem": [11.6643, 78.1460],
-    "Noida": [28.5355, 77.3910],
-    "Gandhinagar": [23.2156, 72.6369],
-    "Mumbai (STP)": [19.0760, 72.8777],
-    "Pune": [18.5204, 73.8567],
-    "Hyderabad": [17.3850, 78.4867],
-    "Bengaluru": [12.9716, 77.5946],
-    "Chennai (STP)": [13.0827, 80.2707],
-    "Thiruvananthapuram": [8.5241, 76.9366],
-    "Kandla": [23.0300, 70.2200],
-    "Mumbai (Port)": [18.9436, 72.8436],
-    "Marmagao": [15.4078, 73.8014],
-    "New Mangalore": [12.9347, 74.8194],
-    "Kochi": [9.9312, 76.2673],
-    "Tuticorin": [8.7642, 78.1348],
-    "Chennai (Port)": [13.0924, 80.2974],
-    "Vishakhapatnam": [17.6868, 83.2185],
-    "Paradip": [20.2644, 86.6669],
-    "Haldia": [22.0257, 88.0583],
-    "Amritsar (Raja Sansi - Sri Guru Ram Das ji)": [31.7096, 74.8002],
-    "Delhi (Indira Gandhi)": [28.5562, 77.1000],
-    "Mumbai (Chhatrapati Shivaji)": [19.0896, 72.8656],
-    "Chennai (Meenambakkam)": [12.9941, 80.1709],
-    "Kolkata (Netaji Subhash Chandra Bose)": [22.6547, 88.4467],
-    "Hyderabad (Rajiv Gandhi)": [17.2403, 78.4294]
+    # --- History: National Movement ---
+    "Calcutta (Sept. 1920)": [22.5645, 88.3520],       # Wellington Square / Subodh Mallick Square area (historic meet site)
+    "Nagpur (Dec. 1920)": [21.1443, 79.0849],         # Historic town hall / central congregation area
+    "Madras (1927)": [13.0604, 80.2496],              # Spur Tank road area (historic Congress session grounds)
+    "Champaran (Indigo Planters)": [26.8449, 84.5042], # Core historic district area of Motihari, Champaran
+    "Kheda (Peasant Satyagraha)": [22.7519, 72.6858],  # Nadiad/Kheda core movement area
+    "Ahmedabad (Cotton Mill Workers)": [23.0242, 72.5890], # Sabarmati Old Mill area
+    "Jallianwala Bagh (Amritsar)": [31.6366, 74.8762], # Exactly on the Jallianwala Bagh Martyr's Memorial
+    "Dandi (Civil Disobedience)": [20.8916, 72.7932],  # Exactly on the National Salt Satyagraha Memorial
+
+    # --- Geography: Dams & Water Resources ---
+    "Salal": [33.1477, 74.8058],                       # Center of the Salal Dam concrete spillway
+    "Bhakra Nangal": [31.4081, 76.4347],               # Exactly on the Bhakra Dam structure over Sutlej
+    "Tehri": [30.3794, 78.4793],                       # Exactly on the Tehri Dam embankment wall
+    "Rana Pratap Sagar": [24.9231, 75.5801],           # Exactly on the Rana Pratap Sagar Dam wall
+    "Sardar Sarovar": [21.8310, 73.7484],              # Exactly on the main concrete gravity dam wall
+    "Hirakud": [21.5284, 83.8711],                     # Center of the main concrete dam section
+    "Nagarjuna Sagar": [16.5741, 79.3135],             # Exactly on the center of the masonry dam wall
+    "Tungbhadra": [15.2574, 76.3408],                  # Center of the Tungabhadra Dam crest gates
+
+    # --- Geography: Iron Ore Mines ---
+    "Mayurbhanj": [22.1812, 86.2223],                  # Gorumahisani Iron Ore Mine complex
+    "Durg": [20.6122, 81.1895],                        # Rajhara Iron Ore Mine pit area (Durg/Balod range)
+    "Bailadila": [18.6500, 81.2200],                   # Center of the active open-cast mining ridge
+    "Bellary": [15.1512, 76.6614],                     # Sandur iron ore belt mining zone near Bellary
+    "Kudremukh": [13.2642, 75.2476],                   # Old KIOCL mining/crushing plant facility
+
+    # --- Geography: Coal Mines ---
+    "Raniganj": [23.6190, 87.1084],                    # Core Raniganj coalfield operational area
+    "Bokaro (Coal Mine)": [23.7744, 85.8712],           # Active coal extraction pit, Bokaro fields
+    "Talcher": [20.9575, 85.1784],                     # Core MCL open-cast coal mining zone
+    "Neyveli": [11.5332, 79.4316],                     # Mine-1 open cast lignite excavation pit
+
+    # --- Geography: Oil Fields ---
+    "Digboi": [27.3811, 95.6375],                      # Historic Digboi Well No. 1 and Refinery hub
+    "Naharkatia": [27.2912, 95.3411],                  # Core oil-producing extraction cluster
+    "Mumbai High": [19.4192, 71.3831],                 # Actual offshore marine platform coordinates
+    "Bassein": [19.3101, 72.1124],                     # Offshore Vasai/Bassein gas field platform area
+    "Kalol": [23.2514, 72.4988],                       # ONGC active oil production facility
+    "Ankleshwar": [21.6114, 73.0182],                  # ONGC central oil extraction hub
+
+    # --- Geography: Power Plants (Thermal & Nuclear) ---
+    "Namrup": [27.1866, 95.3892],                      # Namrup Thermal Power Station complex
+    "Singrauli": [24.2012, 82.7052],                   # NTPC Singrauli Super Thermal Power Plant units
+    "Ramagundam": [18.7562, 79.4511],                  # NTPC Ramagundam Power Plant footprint
+    "Narora": [28.1554, 78.4116],                      # Narora Atomic Power Station reactor domes
+    "Kakrapar": [21.2386, 73.3486],                    # Kakrapar Atomic Power Station facility
+    "Tarapur": [19.8392, 72.7464],                     # Tarapur Atomic Power Station core reactors
+    "Kalpakkam": [12.5574, 80.1581],                   # Madras Atomic Power Station (Kalpakkam)
+
+    # --- Geography: Cotton Textile Industries ---
+    "Mumbai (Cotton Textile)": [18.9912, 72.8310],     # Girangaon (historic Mill lands district of Mumbai)
+    "Indore": [22.7275, 75.8642],                      # Historic Malwa Mills textile industrial area
+    "Surat": [21.2012, 72.8414],                       # Core textile manufacturing/industrial zone
+    "Kanpur": [26.4714, 80.3521],                      # Elgin/Muir Mills historic textile area near river
+    "Coimbatore": [11.0124, 76.9692],                  # Core textile mill cluster area
+
+    # --- Geography: Iron & Steel Plants ---
+    "Durgapur": [23.5518, 87.2798],                    # Durgapur Steel Plant (SAIL) main blast furnaces
+    "Bokaro (Iron & Steel)": [23.6675, 86.0911],       # Bokaro Steel Plant (SAIL) core manufacturing complex
+    "Jamshedpur": [22.7801, 86.1952],                  # Tata Steel Works main factory footprint
+    "Bhilai": [21.1764, 81.3912],                      # Bhilai Steel Plant (SAIL) operations plant
+    "Vijayanagar": [15.1911, 76.6714],                 # JSW Steel Vijayanagar works industrial campus
+    "Salem": [11.6441, 78.0298],                       # Salem Steel Plant (SAIL) processing complex
+
+    # --- Geography: Software Technology Parks (STPI) ---
+    "Noida": [28.5911, 77.3114],                       # Sector 62 / Sector 63 IT & STPI hub
+    "Gandhinagar": [23.2198, 72.6842],                 # Infocity / Gift City IT park zone
+    "Mumbai (STP)": [19.1172, 72.8824],                # Seepz (Santacruz Electronic Export Processing Zone)
+    "Pune": [18.5914, 73.7412],                        # Hinjawadi Rajiv Gandhi Infotech Park Phase 1
+    "Hyderabad": [17.4436, 78.3742],                   # HITEC City / Cyberabad tech hub
+    "Bengaluru": [12.9864, 77.7314],                   # International Tech Park Bangalore (ITPB), Whitefield
+    "Chennai (STP)": [12.9642, 80.2458],               # Taramani Rajiv Gandhi Salai (OMR) IT Corridor
+    "Thiruvananthapuram": [8.5524, 76.8796],           # Technopark Campus Phase 1
+
+    # --- Geography: Major Sea Ports ---
+    "Kandla": [23.0014, 70.2241],                      # Deendayal Port (Kandla) main cargo berths
+    "Mumbai (Port)": [18.9484, 72.8514],               # Mumbai Port Trust docking berths
+    "Marmagao": [15.4112, 73.8114],                    # Marmagao Port iron ore handling berths
+    "New Mangalore": [12.9284, 74.8198],               # New Mangalore Port entry channels
+    "Kochi": [9.9642, 76.2614],                        # Willingdon Island / Vallarpadam Terminal berths
+    "Tuticorin": [8.7511, 78.1642],                    # VOC Port Tuticorin shipping docks
+    "Chennai (Port)": [13.0924, 80.2974],              # Chennai Port Trust main harbor container terminal
+    "Vishakhapatnam": [17.6812, 83.2942],              # Vizag Port inner harbor docking channel
+    "Paradip": [20.2611, 86.6714],                     # Paradip Port mechanized cargo berths
+    "Haldia": [22.0212, 88.0614],                      # Haldia Dock Complex (HDC) berths
+
+    # --- Geography: International Airports ---
+    "Amritsar (Raja Sansi - Sri Guru Ram Das ji)": [31.7081, 74.8014], # Main Terminal building
+    "Delhi (Indira Gandhi)": [28.5572, 77.0911],                       # Exactly on Terminal 3 building
+    "Mumbai (Chhatrapati Shivaji)": [19.0901, 72.8628],                # Exactly on Terminal 2 integrated wing
+    "Chennai (Meenambakkam)": [12.9914, 80.1742],                      # International/Domestic passenger terminal
+    "Kolkata (Netaji Subhash Chandra Bose)": [22.6520, 88.4462],       # Integrated Terminal building canopy
+    "Hyderabad (Rajiv Gandhi)": [17.2414, 78.4298]                     # Shamshabad Main Passenger Terminal
 }
+
 
 MAP_DATA = {
     "History: Congress Sessions": [

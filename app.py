@@ -142,8 +142,8 @@ MAP_DATA = {
     "Geography: Oil Fields": [
         {"name": "Digboi", "state": "Assam"},
         {"name": "Naharkatia", "state": "Assam"},
-        {"name": "Mumbai High", "state": "Arabian Sea"},
-        {"name": "Bassein", "state": "Arabian Sea"},
+        {"name": "Mumbai High", "state": "Maharashtra"},
+        {"name": "Bassein", "state": "Maharashtra"},
         {"name": "Kalol", "state": "Gujarat"},
         {"name": "Ankleshwar", "state": "Gujarat"}
     ],

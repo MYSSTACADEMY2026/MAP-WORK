@@ -20,7 +20,7 @@ COORDINATE_LOOKUP = {
     "Rana Pratap Sagar": [24.9228, 75.5804],
     "Sardar Sarovar": [21.8310, 73.7484],
     "Hirakud": [21.5362, 83.8697],
-    "Nagarjuna Sagar": [16.5293, 79.3117],
+    "Nagarjuna Sagar": [16.5756, 79.3117],
     "Tungbhadra": [15.2530, 76.3409],
     "Mayurbhanj": [22.2400, 86.4300],
     "Durg": [21.1900, 81.2800],

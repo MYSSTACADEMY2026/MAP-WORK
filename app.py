@@ -411,12 +411,15 @@ with tabs[0]:
         for item in MAP_DATA[category]:
             if item["name"] in selected_places:
                 coords = get_coordinates(item["name"], item["state"])
-                folium.Marker(
-                    location=coords,
-                    popup=folium.Popup(f"<b>{item['name']}</b><br>State Location: {item['state']}<br>Syllabus Division: {category}", max_width=250),
-                    tooltip=item["name"],
-                    icon=folium.Icon(color="red" if "History" in category else "blue", icon="info-sign")
-                ).add_to(m)
+            folium.CircleMarker(
+                location=coords,
+                radius=8,
+                popup=folium.Popup(f"<b>{item['name']}</b><br>State: {item['state']}", max_width=250),
+                tooltip=item["name"],
+                color="red" if "History" in category else "blue",
+                fill=True,
+                fill_opacity=0.7
+            ).add_to(m)
         
         st_folium(m, width="100%", height=950)
 

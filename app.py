@@ -3,6 +3,7 @@ import folium
 from streamlit_folium import st_folium
 import random
 import streamlit.components.v1 as components
+import requests
 
 # --- HYPER-EXACT CBSE MAP COORDINATES DATASET (2026 UPDATED) ---
 COORDINATE_LOOKUP = {
@@ -324,12 +325,23 @@ st.write("")
 map_tab, quiz_tab = st.tabs(["🗺️  INTERACTIVE MAP EXPLORER", "✍️  PRACTICE & MOCK TEST"])
 
 # ------------------------- MAP EXPLORER -------------------------
+@st.cache_data(show_spinner="Loading India state boundaries...")
+def load_india_outline():
+    """Fetch a lightweight India state-boundary GeoJSON for the exam layout."""
+    url = "https://raw.githubusercontent.com/sajanraj/india-geojson/master/INDIA_STATES.geojson"
+    response = requests.get(url, timeout=20)
+    response.raise_for_status()
+    data = response.json()
+    if data.get("type") != "FeatureCollection" or not data.get("features"):
+        raise ValueError("The outline map data is not in the expected GeoJSON format.")
+    return data
+
 with map_tab:
     left, right = st.columns([1, 2.35], gap="large")
 
     with left:
         st.markdown('<div class="panel-title">Explore the syllabus</div>', unsafe_allow_html=True)
-        st.markdown('<div class="panel-subtitle">Choose a topic and show the locations you want to revise.</div>', unsafe_allow_html=True)
+        st.markdown('<div class="panel-subtitle">Choose a topic and display the locations you want to revise.</div>', unsafe_allow_html=True)
 
         category = st.selectbox("Syllabus topic", list(MAP_DATA.keys()), key="map_category")
         places_in_cat = [item["name"] for item in MAP_DATA[category]]
@@ -340,14 +352,22 @@ with map_tab:
             key="selected_map_places"
         )
 
-        st.markdown("**Map appearance**")
-        st.caption("OpenStreetMap is used so the map does not need a CARTO API key.")
-        st.info("Tip: Select one or two locations at a time when revising their exact positions.")
+        map_mode = st.radio(
+            "Map style",
+            ["Detailed study map", "Exam layout map"],
+            help="Keep the detailed road map, or switch to a clean India state-outline map for locating and labelling practice."
+        )
+        reveal_key = False
+        if map_mode == "Exam layout map":
+            reveal_key = st.checkbox("Reveal numbered location key", value=False)
+            st.caption("The exam layout uses numbered markers. Try locating each number first, then reveal the key to check the place names.")
+        else:
+            st.info("Detailed study view: familiar road map with clickable place markers.")
 
         if selected_places:
-            st.metric("Locations displayed", len(selected_places))
+            st.metric("Locations selected", len(selected_places))
         else:
-            st.warning("Select at least one location to display markers.")
+            st.warning("Select at least one location to display.")
 
     with right:
         st.markdown('<div class="panel-title">Location map</div>', unsafe_allow_html=True)
@@ -356,20 +376,21 @@ with map_tab:
             unsafe_allow_html=True
         )
 
-        m = folium.Map(
-            location=[22.0, 78.9],
-            zoom_start=5,
-            tiles="OpenStreetMap",
-            control_scale=True
-        )
+        marker_points = [
+            (item, get_coordinates(item["name"], item["state"]))
+            for item in MAP_DATA[category]
+            if item["name"] in selected_places
+        ]
 
-        marker_color = "red" if "History" in category else "blue"
-        marker_points = []
-
-        for item in MAP_DATA[category]:
-            if item["name"] in selected_places:
-                coords = get_coordinates(item["name"], item["state"])
-                marker_points.append(coords)
+        if map_mode == "Detailed study map":
+            m = folium.Map(
+                location=[22.0, 78.9],
+                zoom_start=5,
+                tiles="OpenStreetMap",
+                control_scale=True
+            )
+            marker_color = "red" if "History" in category else "blue"
+            for item, coords in marker_points:
                 folium.CircleMarker(
                     location=coords,
                     radius=7,
@@ -385,23 +406,112 @@ with map_tab:
                     fill_opacity=0.82
                 ).add_to(m)
 
-        if len(marker_points) > 1:
-            m.fit_bounds(marker_points, padding=(28, 28))
-        elif len(marker_points) == 1:
-            m.location = marker_points[0]
-            m.zoom_start = 7
+            if len(marker_points) > 1:
+                m.fit_bounds([coords for _, coords in marker_points], padding=(28, 28))
+            elif len(marker_points) == 1:
+                m.location = marker_points[0][1]
+                m.zoom_start = 7
 
-        st_folium(
-            m,
-            width=None,
-            height=650,
-            returned_objects=[],
-            key="cbse_map"
-        )
-        st.markdown(
-            '<p class="small-note">Map tiles © OpenStreetMap contributors. An internet connection is needed to load the background map.</p>',
-            unsafe_allow_html=True
-        )
+            st_folium(
+                m, width=None, height=650, returned_objects=[], key="cbse_detailed_map"
+            )
+            st.markdown(
+                '<p class="small-note">Map tiles © OpenStreetMap contributors. Internet access is required to load the background map.</p>',
+                unsafe_allow_html=True
+            )
+
+        else:
+            try:
+                india_geojson = load_india_outline()
+                exam_map = folium.Map(
+                    location=[22.5, 79.0],
+                    zoom_start=4,
+                    tiles=None,
+                    control_scale=True
+                )
+                folium.GeoJson(
+                    india_geojson,
+                    name="India state boundaries",
+                    style_function=lambda feature: {
+                        "fillColor": "#f8fbff",
+                        "color": "#526b80",
+                        "weight": 1.15,
+                        "fillOpacity": 0.72
+                    },
+                    highlight_function=lambda feature: {
+                        "weight": 2.5,
+                        "color": "#1769aa",
+                        "fillOpacity": 0.88
+                    },
+                    tooltip=folium.GeoJsonTooltip(
+                        fields=["STATE"],
+                        aliases=["State / UT:"],
+                        sticky=True,
+                        style="font-family: Inter, sans-serif; font-size: 12px;"
+                    )
+                ).add_to(exam_map)
+
+                for number, (item, coords) in enumerate(marker_points, start=1):
+                    number_icon = folium.DivIcon(
+                        html=f"""
+                        <div style="
+                            background:#1769aa;color:white;border:2px solid white;
+                            border-radius:50%;width:27px;height:27px;
+                            display:flex;align-items:center;justify-content:center;
+                            font-size:12px;font-weight:800;
+                            box-shadow:0 2px 6px rgba(0,0,0,.28);
+                        ">{number}</div>
+                        """,
+                        icon_size=(27, 27),
+                        icon_anchor=(13, 13)
+                    )
+                    folium.Marker(
+                        location=coords,
+                        icon=number_icon,
+                        tooltip=f"Location {number}",
+                        popup=folium.Popup(
+                            f"<b>Location {number}</b><br>{item['name']} · {item['state']}",
+                            max_width=260
+                        )
+                    ).add_to(exam_map)
+
+                if marker_points:
+                    exam_map.fit_bounds([coords for _, coords in marker_points], padding=(35, 35))
+                else:
+                    exam_map.fit_bounds([[6.5, 68.0], [37.5, 97.5]])
+
+                st_folium(
+                    exam_map, width=None, height=650,
+                    returned_objects=[], key="cbse_exam_layout_map"
+                )
+
+                st.markdown("**Numbered location sheet**")
+                if reveal_key:
+                    key_cols = st.columns(2)
+                    for idx, (item, coords) in enumerate(marker_points):
+                        with key_cols[idx % 2]:
+                            st.write(f"**{idx + 1}.** {item['name']} — {item['state']}")
+                else:
+                    st.caption(
+                        "Use the numbered pins to practise placing labels. "
+                        "Turn on “Reveal numbered location key” when you want to check the answers."
+                    )
+                    key_cols = st.columns(4)
+                    for idx, (item, coords) in enumerate(marker_points):
+                        with key_cols[idx % 4]:
+                            st.markdown(
+                                f'<div style="border:1px solid #dce8f2;border-radius:9px;padding:8px;text-align:center;background:#f7fbff;color:#31536d;font-weight:700;">{idx + 1}. ______</div>',
+                                unsafe_allow_html=True
+                            )
+
+                st.markdown(
+                    '<p class="small-note">State-boundary outline is a community GeoJSON reference layer. For formal examination preparation, compare boundary depiction with the latest official Survey of India / CBSE materials.</p>',
+                    unsafe_allow_html=True
+                )
+            except Exception as exc:
+                st.error("The exam outline map could not load its state-boundary data. Please check the internet connection and try again.")
+                st.caption(f"Technical detail: {exc}")
+                st.info("Your Detailed study map remains available and does not depend on this outline layer.")
 
 # ------------------------- PRACTICE & MOCK TEST -------------------------
 def create_quiz():

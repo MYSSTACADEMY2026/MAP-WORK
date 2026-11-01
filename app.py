@@ -209,308 +209,293 @@ MAP_DATA = {
 def get_coordinates(name, state):
     return COORDINATE_LOOKUP.get(name, [22.0, 78.9])
 
-st.set_page_config(page_title="CBSE Class 10 Map Prep Terminal", layout="wide")
 
+# ------------------------- APP CONFIGURATION -------------------------
+st.set_page_config(
+    page_title="MY SST ACADEMY | CBSE Map Practice",
+    page_icon="🗺️",
+    layout="wide",
+    initial_sidebar_state="collapsed",
+)
+
+# ------------------------- PREMIUM DESIGN -------------------------
 st.markdown("""
 <style>
-    .stApp {
-      background: linear-gradient(180deg, #0b5ea8 0%, #314755 55%, #26a0da 100%) !important; 
-        color: #ffffff !important;
-    }
-    .branding-container {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-       padding: 2px 8px;
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 10px;
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        margin-bottom: 15px;
-    }
-    .brand-logo {
-        height: 100px;
-        object-fit: contain;
-    }
-    .brand-text-block {
-    display: flex;
-    flex-direction: column;
-    gap: 1px;
-    line-height: 1.1;
-    }
-    .main-academy-title {
-        font-size: 60px;
-        font-weight: 800;
-        color: #FFD700;
-        margin: 0;
-        text-shadow: 0 2px 4px rgba(0,0,0,0.4);
-        font-family: sans-serif;
-    }
-    .sub-academy-title {
-        font-size: 15px;
-        font-weight: 600;
-        color: #ffffff;
-        margin: 0;
-    }
-        
-    h1, h2, h3, h4, h5, h6, label, .stWidgetLabel {
-        color: #ffffff !important;
-    }
-    div[data-testid="stMarkdownContainer"] p {
-        color: #ffffff !important;
-    }
-    label[data-testid="stWidgetLabel"] p {
-        color: #ffffff !important;
-        font-weight: 600 !important;
-    }
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
-    div[data-baseweb="select"] > div {
-        background-color: #1a2d3b !important;
-        border: 1px solid rgba(255, 255, 255, 0.3) !important;
-    }
-    div[data-baseweb="select"] [data-testid="stMarkdownContainer"] p,
-    div[data-baseweb="select"] svg,
-    div[data-baseweb="select"] div {
-        color: #ffffff !important;
-        fill: #ffffff !important;
-    }
-        
-    div[data-baseweb="popover"], 
-    div[role="listbox"], 
-    ul[role="listbox"] {
-        background-color: #ffffff !important;
-        color: #000000 !important;
-    }
-
-    div[role="option"], 
-    div[role="option"] span,
-    ul[role="listbox"] li, 
-    ul[role="listbox"] div,
-    div[data-baseweb="popover"] span {
-        color: #000000 !important;
-        background-color: #ffffff !important;
-    }
-
-    div[role="option"]:hover,
-    div[role="option"][aria-selected="true"],
-    ul[role="listbox"] li:hover,
-    ul[role="listbox"] li[aria-selected="true"] {
-        background-color: #26a0da !important;
-        color: #ffffff !important;
-    }
-
-    span[data-baseweb="tag"] {
-        background-color: #26a0da !important;
-        color: #ffffff !important;
-    }
-    span[data-baseweb="tag"] span {
-        color: #ffffff !important;
-    }
-    div.stButton > button {
-        background: linear-gradient(to right, #314755 0%, #26a0da 51%, #314755 100%) !important;
-        color: white !important;
-        border-radius: 8px !important;
-        padding: 12px 28px !important;
-        font-size: 16px !important;
-        font-weight: bold !important;
-        text-transform: uppercase !important;
-        border: 1px solid rgba(255,255,255,0.2) !important;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.2) !important;
-        transition: 0.5s !important;
-        background-size: 200% auto !important;
-        width: 100%;
-    }
-    div.stButton > button:hover {
-        background-position: right center !important;
-        transform: translateY(-2px) !important;
-        box-shadow: 0 0 20px rgba(255, 255, 255, 0.4) !important;
-    }
-    div[data-testid="stBlock"] {
-        background: rgba(255, 255, 255, 0.08) !important;
-        padding: 20px !important;
-        border-radius: 12px !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    }
-    button[data-baseweb="tab"] {
-        color: #ffffff !important;
-        font-weight: bold !important;
-        font-size: 16px !important;
-    }
-    button[aria-selected="true"] {
-        color: #FFD700 !important;
-        border-bottom-color: #FFD700 !important;
-    }
-    div[data-testid="stMetricValue"] {
-        color: #FFD700 !important;
-        font-size: 42px !important;
-        font-weight: 800 !important;
-    }
-
-    /* --- ISOLATED INDEPENDENT 5 WHITE RESPONSE BOXES --- */
-    /* Target and turn the 5 notification elements pure white so ticks and crosses display perfectly */
-    div[data-testid="stNotificationV2"], 
-    div[data-testid="stBaseAlert-success"],
-    div[data-testid="stBaseAlert-danger"] {
-        background-color: #1a2530 !important;
-        border-radius: 8px !important;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important;
-    }
-
-    /* Set inner content texts to dark gray for high readability inside the white boxes */
-    div[data-testid="stBaseAlert-success"] p,
-    div[data-testid="stBaseAlert-success"] div,
-    div[data-testid="stBaseAlert-danger"] p,
-    div[data-testid="stBaseAlert-danger"] div {
-        color: #ffffff !important;
-        font-weight: 600 !important;
-    }
-
-    /* Give correct ticks and wrong cross marks distinct custom highlight borders */
-    div[data-testid="stBaseAlert-success"] {
-        border-left: 6px solid #2e7d32 !important;
-    }
-    div[data-testid="stBaseAlert-danger"] {
-        border-left: 6px solid #c62828 !important;
-    }
+:root {
+    --navy: #102a43;
+    --blue: #1769aa;
+    --sky: #eaf4ff;
+    --gold: #f5c542;
+    --ink: #183247;
+    --muted: #60758a;
+}
+html, body, [class*="css"] { font-family: 'Inter', sans-serif; }
+.stApp {
+    background: linear-gradient(145deg, #edf5fc 0%, #f7faff 48%, #e8f2fb 100%);
+    color: var(--ink);
+}
+.block-container { padding-top: 1.5rem; padding-bottom: 3rem; max-width: 1500px; }
+.hero {
+    background: linear-gradient(115deg, #102a43 0%, #1769aa 68%, #2396c7 100%);
+    border: 1px solid rgba(255,255,255,.18);
+    border-radius: 22px;
+    padding: 25px 30px;
+    margin-bottom: 18px;
+    box-shadow: 0 14px 34px rgba(16,42,67,.18);
+    display: flex; align-items: center; gap: 22px;
+}
+.hero img { width: 88px; height: 88px; object-fit: contain; background: rgba(255,255,255,.95); border-radius: 16px; padding: 5px; }
+.hero h1 { color: #ffd65a !important; font-size: clamp(27px, 4vw, 46px) !important; font-weight: 800 !important; margin: 0 !important; line-height: 1.1; }
+.hero p { color: #f2f7fc !important; margin: 7px 0 0 0 !important; }
+.eyebrow { color: #d7eaff; text-transform: uppercase; letter-spacing: 2px; font-size: 11px; font-weight: 700; }
+.intro { color: #425b70; font-size: 15px; margin: 0 0 18px 2px; }
+.stat {
+    background: white; border: 1px solid #dce8f2; border-radius: 15px;
+    padding: 15px 17px; box-shadow: 0 5px 16px rgba(24,50,71,.05);
+}
+.stat-label { color: #60758a; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .7px; }
+.stat-value { color: #123b5d; font-size: 25px; font-weight: 800; margin-top: 3px; }
+.panel {
+    background: white; border: 1px solid #dce8f2; border-radius: 18px;
+    padding: 18px 20px; box-shadow: 0 6px 20px rgba(24,50,71,.055);
+}
+.panel-title { color: #123b5d; font-size: 19px; font-weight: 800; margin-bottom: 3px; }
+.panel-subtitle { color: #718397; font-size: 13px; margin-bottom: 13px; }
+div[data-testid="stTabs"] button { font-weight: 700; color: #31536d; }
+div[data-testid="stTabs"] button[aria-selected="true"] { color: #1266a5; }
+.stButton > button {
+    border: 0; border-radius: 11px; min-height: 44px; font-weight: 700;
+    background: linear-gradient(100deg, #1769aa, #2396c7); color: white;
+    box-shadow: 0 5px 13px rgba(23,105,170,.18);
+}
+.stButton > button:hover { color: white; border: 0; background: #12588f; }
+div[data-baseweb="select"] > div, div[data-baseweb="input"] > div {
+    border-radius: 10px; border-color: #cbdbe8; background: #fbfdff;
+}
+div[data-testid="stMetric"] {
+    background: #f7fbff; border: 1px solid #dfebf5; border-radius: 13px; padding: 12px;
+}
+div[data-testid="stMetricLabel"] { color: #5c7185; }
+div[data-testid="stMetricValue"] { color: #135d96; font-weight: 800; }
+div[data-testid="stAlert"] { border-radius: 12px; }
+.small-note { color: #6c8092; font-size: 12px; }
+@media (max-width: 700px) {
+    .hero { padding: 18px; gap: 13px; }
+    .hero img { width: 62px; height: 62px; }
+    .block-container { padding-left: 1rem; padding-right: 1rem; }
+}
 </style>
 """, unsafe_allow_html=True)
 
 LOGO_URL = "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiQ6lxEfFnImeGWEf7I7Fg9z-uCCkAdKWwxtHLn4zzcyCElV3DupEdwzEKpBin5ucTMpCLDbgwqN_cUkj7qhXDdgAIAvIFLdSJfl2byeN8e4_4oaVImEQQB9lYD-5qrC0mDqWWdXEFuhXy6jViTvcc-6LB6sJa3a2okWqasLjDKMoOxcbvtlUwCLxP5JEl6/s320/Gemini_Generated_Image_ce701rce701rce70-removebg-preview.png"
 
 st.markdown(f"""
-    <div class="branding-container">
-        <img class="brand-logo" src="{LOGO_URL}" alt="MY SST ACADEMY LOGO">
-        <div class="brand-text-block">
-            <h1 class="main-academy-title">MY SST ACADEMY</h1>
-            <p>Excellence in Social Science</p>
-            <h2 class="sub-academy-title">CBSE Class X Map Works as per Academic Session: 2026-27</h2>
-        </div>
-    </div>
+<div class="hero">
+  <img src="{LOGO_URL}" alt="MY SST ACADEMY logo">
+  <div>
+    <div class="eyebrow">Excellence in Social Science</div>
+    <h1>MY SST ACADEMY</h1>
+    <p>CBSE Class X · Map Work Practice · Academic Session 2026–27</p>
+  </div>
+</div>
 """, unsafe_allow_html=True)
 
-st.write("Master your full 5 Marks syllabus items dynamically via outline map visualization or endless evaluation testing cycles.")
+total_places = sum(len(items) for items in MAP_DATA.values())
+st.markdown(
+    '<p class="intro">Learn important map locations, explore syllabus topics and practise with fresh self-assessment sets.</p>',
+    unsafe_allow_html=True
+)
 
-tabs = st.tabs(["👁️ Interactive Map Viewer", "📝 Infinite Practice Sets"])
+s1, s2, s3 = st.columns(3)
+for col, label, value in [
+    (s1, "Syllabus topics", len(MAP_DATA)),
+    (s2, "Mapped locations", total_places),
+    (s3, "Questions per mock test", 5),
+]:
+    with col:
+        st.markdown(
+            f'<div class="stat"><div class="stat-label">{label}</div><div class="stat-value">{value}</div></div>',
+            unsafe_allow_html=True
+        )
 
-# --- TAB 1: SYLLABUS LAYOUT VIEWER ---
-with tabs[0]:
-    col1, col2 = st.columns([1, 3])
-    
-    with col1:
-        st.subheader("Syllabus Layout")
-        category = st.selectbox("Choose Textbook Map Topic", list(MAP_DATA.keys()))
-        
+st.write("")
+map_tab, quiz_tab = st.tabs(["🗺️  INTERACTIVE MAP EXPLORER", "✍️  PRACTICE & MOCK TEST"])
+
+# ------------------------- MAP EXPLORER -------------------------
+with map_tab:
+    left, right = st.columns([1, 2.35], gap="large")
+
+    with left:
+        st.markdown('<div class="panel-title">Explore the syllabus</div>', unsafe_allow_html=True)
+        st.markdown('<div class="panel-subtitle">Choose a topic and show the locations you want to revise.</div>', unsafe_allow_html=True)
+
+        category = st.selectbox("Syllabus topic", list(MAP_DATA.keys()), key="map_category")
         places_in_cat = [item["name"] for item in MAP_DATA[category]]
-        selected_places = st.multiselect("Toggle Specific Locations", places_in_cat, default=places_in_cat)
-        map_style = st.selectbox(
-    "Outline Map Display Texture",
-    ["OpenStreetMap"],
-    index=0
-)
-        
-        st.info("💡 Pro-Tip: Select 'CartoDB positron'. It strips away details, leaving a clean outline template matching your actual Board examination papers.")
-
-    with col2:
-       m = folium.Map(
-    location=[22.0, 78.9],
-    zoom_start=5,
-    tiles="OpenStreetMap"
-)
-
-for item in MAP_DATA[category]:
-    if item["name"] in selected_places:
-        coords = get_coordinates(
-            item["name"],
-            item["state"]
+        selected_places = st.multiselect(
+            "Locations to display",
+            places_in_cat,
+            default=places_in_cat,
+            key="selected_map_places"
         )
 
-        folium.CircleMarker(
-            location=coords,
-            radius=8,
-            popup=folium.Popup(
-                f"<b>{item['name']}</b><br>State: {item['state']}",
-                max_width=250
-            ),
-            tooltip=item["name"],
-            color="red" if "History" in category else "blue",
-            fill=True,
-            fill_opacity=0.7
-        ).add_to(m)
+        st.markdown("**Map appearance**")
+        st.caption("OpenStreetMap is used so the map does not need a CARTO API key.")
+        st.info("Tip: Select one or two locations at a time when revising their exact positions.")
 
-st_folium(m, width="100%", height=950)
-# --- TAB 2: INFINITE PRACTICE ROOM ---
-with tabs[1]:
-    st.subheader("🧠 Unlimited Self-Assessment Test")
-    st.write("Practise an infinite variety of combinations. Questions mirror identification styles seen in the board exam.")
-    
-    if "quiz_data" not in st.session_state:
-        all_items = [(cat, item) for cat, items in MAP_DATA.items() for item in items]
-        st.session_state.quiz_data = random.sample(all_items, min(5, len(all_items)))
-        st.session_state.answers = {}
-        st.session_state.submitted = False
-        
-        quiz_options = {}
-        for idx, (cat, item) in enumerate(st.session_state.quiz_data):
-            wrong_states = list(set([i["state"] for c, items in MAP_DATA.items() for i in items if i["state"] != item["state"]]))
-            options = list(set([item["state"]] + random.sample(wrong_states, min(3, len(wrong_states)))))
-            random.shuffle(options)
-            quiz_options[idx] = options
-        st.session_state.quiz_options = quiz_options
+        if selected_places:
+            st.metric("Locations displayed", len(selected_places))
+        else:
+            st.warning("Select at least one location to display markers.")
 
-    if st.button("🔄 New Mock Test Set"):
-        all_items = [(cat, item) for cat, items in MAP_DATA.items() for item in items]
-        st.session_state.quiz_data = random.sample(all_items, 5)
-        st.session_state.answers = {}
-        st.session_state.submitted = False
-        
-        quiz_options = {}
-        for idx, (cat, item) in enumerate(st.session_state.quiz_data):
-            wrong_states = list(set([i["state"] for c, items in MAP_DATA.items() for i in items if i["state"] != item["state"]]))
-            options = list(set([item["state"]] + random.sample(wrong_states, min(3, len(wrong_states)))))
-            random.shuffle(options)
-            quiz_options[idx] = options
-        st.session_state.quiz_options = quiz_options
-        st.rerun()
-
-    for idx, (cat, item) in enumerate(st.session_state.quiz_data):
-        st.markdown(f"**Question {idx+1}:** Identify the correct State/Territory where the listed feature **'{item['name']}'** (From *{cat}*) is located:")
-        
-        options = st.session_state.quiz_options[idx]
-        user_choice = st.session_state.answers.get(idx)
-        radio_index = options.index(user_choice) if user_choice in options else None
-        
-        st.session_state.answers[idx] = st.radio(
-            f"Select positioning boundary for {item['name']}:", 
-            options, 
-            key=f"q_{idx}",
-            index=radio_index
+    with right:
+        st.markdown('<div class="panel-title">Location map</div>', unsafe_allow_html=True)
+        st.markdown(
+            f'<div class="panel-subtitle">{category} · {len(selected_places)} selected location(s)</div>',
+            unsafe_allow_html=True
         )
-        st.divider()
 
-    st.markdown('<div id="evaluation-score-anchor"></div>', unsafe_allow_html=True)
+        m = folium.Map(
+            location=[22.0, 78.9],
+            zoom_start=5,
+            tiles="OpenStreetMap",
+            control_scale=True
+        )
 
-    if st.button("📤 Submit Final Answer Sheet"):
+        marker_color = "red" if "History" in category else "blue"
+        marker_points = []
+
+        for item in MAP_DATA[category]:
+            if item["name"] in selected_places:
+                coords = get_coordinates(item["name"], item["state"])
+                marker_points.append(coords)
+                folium.CircleMarker(
+                    location=coords,
+                    radius=7,
+                    popup=folium.Popup(
+                        f"<b>{item['name']}</b><br>State: {item['state']}",
+                        max_width=260
+                    ),
+                    tooltip=f"{item['name']} · {item['state']}",
+                    color=marker_color,
+                    weight=2,
+                    fill=True,
+                    fill_color=marker_color,
+                    fill_opacity=0.82
+                ).add_to(m)
+
+        if len(marker_points) > 1:
+            m.fit_bounds(marker_points, padding=(28, 28))
+        elif len(marker_points) == 1:
+            m.location = marker_points[0]
+            m.zoom_start = 7
+
+        st_folium(
+            m,
+            width=None,
+            height=650,
+            returned_objects=[],
+            key="cbse_map"
+        )
+        st.markdown(
+            '<p class="small-note">Map tiles © OpenStreetMap contributors. An internet connection is needed to load the background map.</p>',
+            unsafe_allow_html=True
+        )
+
+# ------------------------- PRACTICE & MOCK TEST -------------------------
+def create_quiz():
+    all_items = [(cat, item) for cat, items in MAP_DATA.items() for item in items]
+    questions = random.sample(all_items, min(5, len(all_items)))
+    all_states = sorted({item["state"] for _, items in MAP_DATA.items() for item in items})
+    options_by_question = {}
+
+    for idx, (_, item) in enumerate(questions):
+        wrong_states = [state for state in all_states if state != item["state"]]
+        wrong_choices = random.sample(wrong_states, min(3, len(wrong_states)))
+        options = [item["state"]] + wrong_choices
+        random.shuffle(options)
+        options_by_question[idx] = options
+
+    st.session_state.quiz_data = questions
+    st.session_state.quiz_options = options_by_question
+    st.session_state.answers = {}
+    st.session_state.submitted = False
+
+if "quiz_data" not in st.session_state:
+    create_quiz()
+
+with quiz_tab:
+    st.markdown('<div class="panel-title">Mock test room</div>', unsafe_allow_html=True)
+    st.markdown(
+        '<div class="panel-subtitle">A fresh set of five questions is generated from your syllabus dataset.</div>',
+        unsafe_allow_html=True
+    )
+
+    top_a, top_b = st.columns([3, 1])
+    with top_a:
+        st.info("Choose the state or territory associated with each listed feature. Submit when you are ready.")
+    with top_b:
+        if st.button("↻ New question set", use_container_width=True):
+            create_quiz()
+            st.rerun()
+
+    answered_count = len(st.session_state.answers)
+    st.progress(answered_count / len(st.session_state.quiz_data), text=f"{answered_count} of {len(st.session_state.quiz_data)} questions answered")
+
+    with st.form("mock_test_form"):
+        for idx, (cat, item) in enumerate(st.session_state.quiz_data):
+            st.markdown(f"**Question {idx + 1}**")
+            st.write(f"Where is **{item['name']}** located?")
+            st.caption(f"Topic: {cat}")
+            previous_answer = st.session_state.answers.get(idx)
+            options = st.session_state.quiz_options[idx]
+            default_index = options.index(previous_answer) if previous_answer in options else None
+            choice = st.radio(
+                f"Choose the correct state — question {idx + 1}",
+                options,
+                index=default_index,
+                key=f"answer_{idx}",
+                horizontal=True
+            )
+            st.session_state.answers[idx] = choice
+            if idx < len(st.session_state.quiz_data) - 1:
+                st.divider()
+
+        submitted = st.form_submit_button("Submit answers", use_container_width=True)
+
+    if submitted:
         st.session_state.submitted = True
 
     if st.session_state.submitted:
-        st.subheader("📊 Performance Summary & Analysis")
-        score = 0
-        for idx, (cat, item) in enumerate(st.session_state.quiz_data):
-            user_ans = st.session_state.answers.get(idx)
-            correct_ans = item["state"]
-            if user_ans == correct_ans:
-                score += 1
-                st.success(f"✔️ Question {idx+1}: Correct! **{item['name']}** belongs within **{correct_ans}**.")
-            else:
-                st.error(f"❌ Question {idx+1}: Wrong Choice. **{item['name']}** is located within **{correct_ans}** (You selected: {user_ans}).")
-        
-        st.metric(label="Your Mock Evaluation Score", value=f"{score} / 5")
+        score = sum(
+            st.session_state.answers.get(idx) == item["state"]
+            for idx, (_, item) in enumerate(st.session_state.quiz_data)
+        )
+        st.markdown("### Your result")
+        st.metric("Mock test score", f"{score} / {len(st.session_state.quiz_data)}")
+        st.progress(score / len(st.session_state.quiz_data))
 
-        js_scroll = """
-        <script>
-            var el = window.parent.document.getElementById("evaluation-score-anchor");
-            if(el) {
-                el.scrollIntoView({behavior: "smooth", block: "center"});
-            }
-        </script>
-        """
-        components.html(js_scroll, height=0, width=0)
+        if score == len(st.session_state.quiz_data):
+            st.success("Excellent work! You answered every question correctly.")
+        elif score >= 3:
+            st.info("Good effort. Review the explanations below and try another set.")
+        else:
+            st.warning("Keep practising. Revisit the map topics and try a new set.")
+
+        for idx, (_, item) in enumerate(st.session_state.quiz_data):
+            selected = st.session_state.answers.get(idx)
+            if selected == item["state"]:
+                st.success(f"Q{idx + 1}: {item['name']} — {item['state']} (Correct)")
+            else:
+                st.error(f"Q{idx + 1}: {item['name']} — Correct answer: {item['state']} · Your answer: {selected}")
+
+        if st.button("Practise another set", use_container_width=True):
+            create_quiz()
+            st.rerun()
+
+st.divider()
+st.markdown(
+    '<div style="text-align:center;color:#718397;font-size:12px;">MY SST ACADEMY · Learn · Locate · Practise · Improve</div>',
+    unsafe_allow_html=True
+)

@@ -401,28 +401,42 @@ with tabs[0]:
         
         places_in_cat = [item["name"] for item in MAP_DATA[category]]
         selected_places = st.multiselect("Toggle Specific Locations", places_in_cat, default=places_in_cat)
-        map_style = st.selectbox("Outline Map Display Texture", ["CartoDB positron", "OpenStreetMap", "CartoDB dark_matter"])
+        map_style = st.selectbox(
+    "Outline Map Display Texture",
+    ["OpenStreetMap"],
+    index=0
+)
         
         st.info("💡 Pro-Tip: Select 'CartoDB positron'. It strips away details, leaving a clean outline template matching your actual Board examination papers.")
 
     with col2:
-        m = folium.Map(location=[22.0, 78.9], zoom_start=5, tiles=map_style)
-        
-        for item in MAP_DATA[category]:
-            if item["name"] in selected_places:
-                coords = get_coordinates(item["name"], item["state"])
-            folium.CircleMarker(
-                location=coords,
-                radius=8,
-                popup=folium.Popup(f"<b>{item['name']}</b><br>State: {item['state']}", max_width=250),
-                tooltip=item["name"],
-                color="red" if "History" in category else "blue",
-                fill=True,
-                fill_opacity=0.7
-            ).add_to(m)
-        
-        st_folium(m, width="100%", height=950)
+       m = folium.Map(
+    location=[22.0, 78.9],
+    zoom_start=5,
+    tiles="OpenStreetMap"
+)
 
+for item in MAP_DATA[category]:
+    if item["name"] in selected_places:
+        coords = get_coordinates(
+            item["name"],
+            item["state"]
+        )
+
+        folium.CircleMarker(
+            location=coords,
+            radius=8,
+            popup=folium.Popup(
+                f"<b>{item['name']}</b><br>State: {item['state']}",
+                max_width=250
+            ),
+            tooltip=item["name"],
+            color="red" if "History" in category else "blue",
+            fill=True,
+            fill_opacity=0.7
+        ).add_to(m)
+
+st_folium(m, width="100%", height=950)
 # --- TAB 2: INFINITE PRACTICE ROOM ---
 with tabs[1]:
     st.subheader("🧠 Unlimited Self-Assessment Test")
